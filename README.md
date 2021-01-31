@@ -1,7 +1,5 @@
-# Team BetaGo
-
-## Work flow
-### Git
+#  Work flow
+## Git
 
 1. Create your branch.
 2. Work on it, verify it works, test it and then commit.
@@ -10,8 +8,7 @@
 5. Merge to the master, then it will automatically deployed on Amplify. Wait for 5 mins and go the domain to check it works well after merging.
 
 
-## components
-- place your compoment in 'react-app/src/components/ComponentName/'
-- name your compoments with 'ComponentName.js' and 'ComponentName.css'
-- name your compoment properly
-- create your static folders inside it (for now) - './img', './icon', etc.
+## Components
+- Place your compoment in 'react-app/src/Components/ComponentName/'
+- Name your compoments properly with 'ComponentName.js' and 'ComponentName.css'
+- Create your static folders inside it (for now) - './img', './icon', etc.
