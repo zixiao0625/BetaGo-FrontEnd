@@ -1,6 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 import HomePage from './Compoments/HomePage/HomePage'
+import Invitation from './Compoments/Invitation/Invitation'
 import React, { useState, useEffect } from "react";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 
