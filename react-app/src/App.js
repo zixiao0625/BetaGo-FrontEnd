@@ -1,5 +1,5 @@
-import HomePage from './Compoments/HomePage/HomePage'
-import Invitation from './Compoments/Invitation/Invitation'
+import HomePage from './components/HomePage/HomePage'
+import Invitation from './components/Invitation/Invitation'
 import React, { useState, useEffect } from "react";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 
