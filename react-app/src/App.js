@@ -9,7 +9,7 @@ function App() {
     <HashRouter>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        
+        <Route exact path="/invitation" component={Invitation} />
         <Redirect to="/" />
       </Switch>
     </HashRouter>
