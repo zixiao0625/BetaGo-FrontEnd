@@ -1,37 +1,3 @@
-.page {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  text-align: left;
-  transform: translate(-50%, -50%)
-}
-
-.dice_icon {
-  position: relative;
-  left: 80px;
-  top: 37px
-}
-
-.join_btn {
-  text-align: center;
-}
-
-.device_access {
-  position: absolute;
-  top: 60% ; 
-  left: 30%;
-}
-
-.microphone {
-  display: inline-block;
-  margin: 15px;
-}
-
-
-.camera {
-  display: inline-block
-}
-
 .App {
   text-align: center;
 }
