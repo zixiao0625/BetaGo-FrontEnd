@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Form, Col } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import React, {useState, useEffect, useRef} from 'react';
+
 const HomePage = (props)=>{
     return (
         <div>
@@ -19,8 +20,6 @@ const HomePage = (props)=>{
         </div>
     );
 }
-
-
 
 class DeviceSetUp extends React.Component {
     constructor(props) {
