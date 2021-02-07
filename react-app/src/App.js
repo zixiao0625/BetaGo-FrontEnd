@@ -9,6 +9,7 @@ function App() {
     <HashRouter>
       <Switch>
         <Route exact path="/" component={HomePage} />
+        
         <Redirect to="/" />
       </Switch>
     </HashRouter>
