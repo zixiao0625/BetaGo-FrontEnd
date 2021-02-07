@@ -2,7 +2,7 @@ import './App.css';
 import { Link } from "react-router-dom";
 import { Form, Col } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 const HomePage = (props)=>{
     return (
         <div>
@@ -20,6 +20,8 @@ const HomePage = (props)=>{
     );
 }
 
+
+
 class DeviceSetUp extends React.Component {
     constructor(props) {
         super(props);
@@ -31,9 +33,7 @@ class DeviceSetUp extends React.Component {
                    </svg>,
           camIcon: <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-camera-video-off" viewBox="0 0 20 20">
                    <path fill-rule="evenodd" d="M10.961 12.365a1.99 1.99 0 0 0 .522-1.103l3.11 1.382A1 1 0 0 0 16 11.731V4.269a1 1 0 0 0-1.406-.913l-3.111 1.382A2 2 0 0 0 9.5 3H4.272l.714 1H9.5a1 1 0 0 1 1 1v6a1 1 0 0 1-.144.518l.605.847zM1.428 4.18A.999.999 0 0 0 1 5v6a1 1 0 0 0 1 1h5.014l.714 1H2a2 2 0 0 1-2-2V5c0-.675.334-1.272.847-1.634l.58.814zM15 11.73l-3.5-1.555v-4.35L15 4.269v7.462zm-4.407 3.56l-10-14 .814-.58 10 14-.814.58z"/>
-                   </svg>,
-          localStream: "",
-          srcObject: ""
+                   </svg>
         };
     
     }
@@ -92,8 +92,7 @@ class DeviceSetUp extends React.Component {
             // }
         }
     }
-
-
+    
     render() {
         return(
             <div>
@@ -104,11 +103,45 @@ class DeviceSetUp extends React.Component {
                 {this.state.camIcon}
             </div> 
             <div className="videoTest">
-                <video id="vid" ref="vidRef" src={this.state.srcObject} height="120" width="160" autoplay></video>,
+                <VideoContainer micOn={this.state.micOn} camOn={this.state.camOn}/>
             </div>
             </div>
         );
     }
+}
+
+const VideoContainer = (props)=>{
+    const userVideo = useRef()
+    const [stream, setStream] = useState();
+    // Request User's video and audio stream when compoment loading
+    useEffect(() => {
+        if (props.micOn && props.camOn) {
+            navigator.mediaDevices.getUserMedia({ video: props.camOn, audio: props.micOn }).then(stream => {
+                setStream(stream);
+                if (userVideo.current) {
+                    userVideo.current.srcObject = stream;
+                }
+            })
+        }
+    },);
+
+    // If Stream availiable, push the stream to the video player 
+    let UserVideo;
+    if (stream) {
+        UserVideo = (
+            <video className="userVideo" playsInline muted ref={userVideo} autoPlay />
+        );
+    }
+    if(!props.camOn) {
+        UserVideo = (
+            <div></div>
+        );
+    }
+    return(
+        <div>
+            {UserVideo}
+        </div>
+    );
 }
 
 class JoinForm extends React.Component {
