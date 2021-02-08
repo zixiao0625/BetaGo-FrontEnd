@@ -1,6 +1,6 @@
-import HomePage from './Compoments/HomePage/HomePage'
+import HomePage from './Compoments/HomePage/HomePage.js'
 import RoomPage from './Compoments/RoomPage/RoomPage.js'
-import Invitation from './Compoments/Invitation/Invitation'
+import Invitation from './Compoments/Invitation/Invitation.js'
 import React, { useState, useEffect } from "react";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 
