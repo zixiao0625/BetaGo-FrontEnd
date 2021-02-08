@@ -60,7 +60,7 @@ const JoinForm = (props)=> {
                     type="text"
                     placeholder="eg: Odegaarrd Night.."
                     maxLength = "30"
-                    onChange={(event) => this.updateRoom(event)}
+                    onChange={updateRoom}
                 />
                 </Form.Group>
                 <Form.Group controlId="UserName">
@@ -69,7 +69,7 @@ const JoinForm = (props)=> {
                     type="text"
                     placeholder="your name.."
                     maxLength = "30"
-                    onChange={(event) => this.updateName(event)}
+                    onChange={updateName}
                 />
                 </Form.Group>
                 <div className="join_btn">
@@ -81,7 +81,7 @@ const JoinForm = (props)=> {
                         id="join_room"
                         variant="primary"
                         type="submit"
-                        onClick={(event) => this.handleSubmit(event)}
+                        onClick={handleSubmit}
                     >
                         Let's go!
                     </Button>  
@@ -91,7 +91,7 @@ const JoinForm = (props)=> {
                         id="join_fail"
                         variant="primary"
                         type="submit"
-                        onClick={(event) => this.handleSubmitNothing(event)}
+                        onClick={handleSubmitNothing}
                     >
                         Let's go!
                     </Button>  
