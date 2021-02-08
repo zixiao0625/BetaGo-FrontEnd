@@ -1,7 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
 import HomePage from './Compoments/HomePage/HomePage'
 import RoomPage from './Compoments/RoomPage/RoomPage.js'
+import Invitation from './Compoments/Invitation/Invitation'
 import React, { useState, useEffect } from "react";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 
@@ -12,6 +11,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/room" component={RoomPage} />
+        <Route exact path="/invitation" component={Invitation} />
         <Redirect to="/" />
       </Switch>
     </HashRouter>
