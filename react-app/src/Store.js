@@ -5,6 +5,7 @@ import React, {createContext, useReducer} from 'react';
 // const [state,dispatch] = useContext(store)
 // the state is read only global state data
 // dispatch can change the state through pre-defined action
+// example : dispatch({type:"action description", data:"xxx"})
 
 
 // Set up the Global state here (The state here is that need to be accessed globally)
