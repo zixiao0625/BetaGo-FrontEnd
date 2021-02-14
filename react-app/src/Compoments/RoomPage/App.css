@@ -1,0 +1,22 @@
+.microphone, .camera, .music, .box, .chat, .left, .right {
+    display: inline-block;
+    margin: 15px;
+    margin-top: 20px;
+    position: relative;
+    left: 20px;
+}
+
+.right {
+    position: absolute;
+    left: 180px;
+    top: 20px;
+    margin: 0px;
+}
+
+.toolbar { 
+    position: absolute; 
+    bottom: 0px; 
+    background: grey;
+    height: 70px;
+    width: 100%;
+}
