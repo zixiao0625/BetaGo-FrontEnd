@@ -1,14 +1,19 @@
-import HomePage from './Compoments/HomePage/HomePage'
-import Invitation from './Compoments/Invitation/Invitation'
+import HomePage from './Compoments/HomePage/HomePage.js'
+import RoomPage from './Compoments/RoomPage/RoomPage.js'
+import Invitation from './Compoments/Invitation/Invitation.js'
 import React, { useState, useEffect } from "react";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 
-function App() {
+const AppContext = React.createContext();
 
+function App() {
   return (
+    
     <HashRouter>
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/room/" component={HomePage} />
+        <Route exact path="/room/:roomid" component={RoomPage} />
         <Route exact path="/invitation" component={Invitation} />
         <Redirect to="/" />
       </Switch>
