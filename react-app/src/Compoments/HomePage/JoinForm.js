@@ -3,13 +3,12 @@ import { Form, Col } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import diceIcon from '../../Icons/dice_icon.svg';
 import React, {useState, useEffect, useRef} from 'react';
+import { v4 as uuidv4 } from 'uuid';
 const JoinForm = (props)=> {
 
     const [room,setRoom] = useState("");
     const [name,setName] = useState("");
-    const [roomFilled,setRoomFilled] = useState(false);
-    const [nameFilled,setNameFilled] = useState(false);
-    
+    const [roomId, setRoomID] = useState("");
     //   handleChange(event) {
     //     this.setState({ 
     //       value: event.target.value
@@ -24,27 +23,30 @@ const JoinForm = (props)=> {
     //       });
     //     }
     //   }
-     
+    const UpdateRoomDB = () => {
+        
+    }
+
     const updateRoom = (event) => {
         setRoom(event.target.value)
-        setRoomFilled(true)
     }
 
     const updateName = (event) => {
         setName(event.target.value)
-        setNameFilled(true)
     }
     
     const handleSubmit = (event)=> {
         // 可删event
-        event.preventDefault()
-        window.alert("Join Room Success!");
+        let id = uuidv4();
+        props.p.history.push(`/room/${id}`);
     }
     
     const handleSubmitNothing = (event) => {
         event.preventDefault()
         window.alert("Must fill out all information!");
     }
+
+    const onsubmit =  room !== "" && name !== "" ? handleSubmit : handleSubmitNothing;
 
     return (
         <Form>
@@ -73,31 +75,15 @@ const JoinForm = (props)=> {
                 />
                 </Form.Group>
                 <div className="join_btn">
-                {
-                nameFilled && roomFilled
-                // 定义link位置
-                ? <Link to="">
-                    <Button
-                        id="join_room"
-                        variant="primary"
-                        type="submit"
-                        onClick={handleSubmit}
-                    >
-                        Let's go!
-                    </Button>  
-                    </Link>
-                : <Link to="">
-                    <Button
-                        id="join_fail"
-                        variant="primary"
-                        type="submit"
-                        onClick={handleSubmitNothing}
-                    >
-                        Let's go!
-                    </Button>  
-                    </Link>
                 
-                }
+                <Button
+                    id="join_room"
+                    variant="primary"
+                    type="submit"
+                    onClick={onsubmit}
+                >
+                    Let's go!
+                </Button>  
                 </div>
                 </Col>
             </Form.Row>
