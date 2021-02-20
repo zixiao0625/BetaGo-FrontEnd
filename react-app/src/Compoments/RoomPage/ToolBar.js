@@ -3,6 +3,7 @@ import micIconMute from '../../Icons/mic_icon_mute.svg'
 import micIconOn from '../../Icons/mic_icon_on.svg'
 import camIconOn from '../../Icons/cam_icon_on.svg'
 import camIconOff from '../../Icons/cam_icon_off.svg'
+import VideoGalley from './VideoGalley'
 
 const ToolBar = (props)=>{
     return (
