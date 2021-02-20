@@ -21,103 +21,106 @@ rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 const appId= "a3624becc6624c74959bd7f7975e89ed";
 
 export const RoomPage = (props)=>{
-    const [peers, setPeers] = useState([]);
-    const wsRef = useRef();
-    const userVideo = useRef();
-    const peersRef = useRef([]);
     // const roomID = props.match.params.roomID;
     const client = useRef()
     const [uid,setUid] = useState("")
     const videoRef = props.videoRef;
+    let localAudioTrack;
+    let localVideoTrack;
     useEffect(async ()=>{
         client.current = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-        const uId = await client.current.join(appId, "test", null);
-        setUid(uId);
-        let localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        let localVideoTrack = await AgoraRTC.createCameraVideoTrack();
-        // Play localStream
+        localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        localVideoTrack = await AgoraRTC.createCameraVideoTrack();
+        
+        console.log("publish success!");
+        client.current.on("user-published",onUserPublish);
+        client.current.on("user-unpublished",onUnpublish);
         const localContainer = document.createElement("div");
-   
         localContainer.id = "self";
         localContainer.style.width = "640px";
         localContainer.style.height = "480px";
         document.getElementById("Local-Stream").append(localContainer);
         localVideoTrack.play("self");
+        const uId = await client.current.join(appId, "test", null);
         await client.current.publish([localAudioTrack, localVideoTrack]);
-        console.log("publish success!");
-        client.current.on("user-published", async (user, mediaType) => {
-            // 开始订阅远端用户。
-            await client.current.subscribe(user, mediaType);
-            console.log("subscribe success");
-            // 表示本次订阅的是视频。
-            if (mediaType === "video") {
-              // 订阅完成后，从 `user` 中获取远端视频轨道对象。
-                
-
-              const remoteVideoTrack = user.videoTrack;
-              setPeers([...peers,user.uid.toString()]);
-            //   const PlayerContainer = React.createElement("div", {
-            //     id: user.uid.toString(),
-            //     className: "stream",
-            //     width:"480px",
-            //     height:"680px",
-            //   });
-            //   ReactDOM.render(
-            //     PlayerContainer,
-            //     document.getElementById("VideoGalley")
-            //   );
-              // 动态插入一个 DIV 节点作为播放远端视频轨道的容器。
-              const playerContainer = document.createElement("div");
-            //   // 给这个 DIV 节点指定一个 ID，这里指定的是远端用户的 UID。
-              playerContainer.id = user.uid.toString();
-              playerContainer.style.width = "640px";
-              playerContainer.style.height = "480px";
-              document.getElementById("VideoGalley").append(playerContainer);
-          
-              // 订阅完成，播放远端音视频。
-              // 传入 DIV 节点，让 SDK 在这个节点下创建相应的播放器播放远端视频。
-              remoteVideoTrack.play(user.uid.toString());
-          
-              // 也可以只传入该 DIV 节点的 ID。
-              // remoteVideoTrack.play(playerContainer.id);
-            }
-          
-            // 表示本次订阅的是音频。
-            if (mediaType === "audio") {
-              // 订阅完成后，从 `user` 中获取远端音频轨道对象。
-              const remoteAudioTrack = user.audioTrack;
-              // 播放音频因为不会有画面，不需要提供 DOM 元素的信息。
-              remoteAudioTrack.play();
-            }
-            console.log("Subscribe User:");
-
-
-            console.log(user.uid.toString());
-          });
-
-
-
-          client.current.on("user-unpublished", (user, mediaType) => {
-            if (mediaType === "video") {
-              // 获取刚刚动态创建的 DIV 节点。
-              var u_id = user.uid.toString();
-              var index = peers.indexOf(u_id);
-              setPeers(peers.splice(index,1));
-              const PlayerContainer = document.getElementById(user.uid.toString());
-              if (PlayerContainer){
-                PlayerContainer.remove();
-              }
-              
-                
-            }
-            console.log("Unsb User");
-            console.log(user.uid.toString());
-          });
-
-
+        setUid(uId);
     },[]);
 
 
+    const onUserPublish =async (user, mediaType) => {
+        // 开始订阅远端用户。
+        await client.current.subscribe(user, mediaType);
+        console.log("subscribe success");
+        console.log("I fcking get the user!!!!!");
+        // 表示本次订阅的是视频。
+        if (mediaType === "video") {
+          // 订阅完成后，从 `user` 中获取远端视频轨道对象。
+            
+        const remoteVideoTrack = user.videoTrack;
+        //   const PlayerContainer = React.createElement("div", {
+        //     id: user.uid.toString(),
+        //     className: "stream",
+        //     width:"480px",
+        //     height:"680px",
+        //   });
+        //   ReactDOM.render(
+        //     PlayerContainer,
+        //     document.getElementById("VideoGalley")
+        //   );
+          // 动态插入一个 DIV 节点作为播放远端视频轨道的容器。
+        const playerContainer = document.createElement("div");
+        //   // 给这个 DIV 节点指定一个 ID，这里指定的是远端用户的 UID。
+        playerContainer.id = user.uid.toString();
+        playerContainer.style.width = "640px";
+        playerContainer.style.height = "480px";
+        document.getElementById("VideoGalley").append(playerContainer);
+      
+          // 订阅完成，播放远端音视频。
+          // 传入 DIV 节点，让 SDK 在这个节点下创建相应的播放器播放远端视频。
+        remoteVideoTrack.play(playerContainer);
+      
+          // 也可以只传入该 DIV 节点的 ID。
+          // remoteVideoTrack.play(playerContainer.id);
+        }
+      
+        // 表示本次订阅的是音频。
+        if (mediaType === "audio") {
+          // 订阅完成后，从 `user` 中获取远端音频轨道对象。
+          const remoteAudioTrack = user.audioTrack;
+          // 播放音频因为不会有画面，不需要提供 DOM 元素的信息。
+          remoteAudioTrack.play();
+        }
+        console.log("Subscribe User:");
+        console.log(user.uid.toString());
+    }
+
+
+
+    const onUnpublish = (user, mediaType) => {
+        if (mediaType === "video") {
+        // 获取刚刚动态创建的 DIV 节点。
+            var u_id = user.uid.toString();
+            const PlayerContainer = document.getElementById(user.uid.toString());
+            PlayerContainer.remove();
+
+
+        }
+    }
+    async function leaveCall() {
+        // 销毁本地音视频轨道。
+        localAudioTrack.close();
+        localVideoTrack.close();
+      
+        // 遍历远端用户。
+        client.current.remoteUsers.forEach(user => {
+          // 销毁动态创建的 DIV 节点。
+          const playerContainer = document.getElementById(user.uid);
+          playerContainer && playerContainer.remove();
+        });
+      
+        // 离开频道。
+        await client.current.leave();
+    }
 
 
     return (
