@@ -16,21 +16,7 @@ const DeviceSetUp = (props) =>{
     const clickCamIcon = () => {
         setCamOn(!camOn);
     }
-            // if (navigator.mediaDevices.getUserMedia !== null) {
-            //     var options = { 
-            //       video:this.state.camOn, 
-            //       audio:this.state.micOn 
-            //     };  
-            //     navigator.getUserMedia(options, function(stream) { 
-            //     //   this.setState({
-            //     //     srcObject: stream,
-            //     //     localStream: stream
-            //     //   });
-            //       this.refs.vidRef.play();
-            //     }, function(e) { 
-            //       console.log("background error : " + e.name);
-            //     }); 
-            // }   
+    
     let camIcon = camOn? camIconOn:camIconOff;
     let micIcon = micOn? micIconOn:micIconMute;
     return(
