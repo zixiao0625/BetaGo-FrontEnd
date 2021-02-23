@@ -9,7 +9,11 @@ import React, {createContext, useReducer} from 'react';
 
 
 // Set up the Global state here (The state here is that need to be accessed globally)
-const initialState = {};
+const initialState = {
+    userName:"",
+    micOn:false,
+    camOn:false,
+};
 
 const store = createContext(initialState);
 const { Provider } = store;
