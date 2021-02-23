@@ -43,6 +43,11 @@
     display: inline-block
   }
 
+.btnSignOut {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+}
   
 .App {
     text-align: center;

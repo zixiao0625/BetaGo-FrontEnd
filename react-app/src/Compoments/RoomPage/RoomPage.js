@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef} from "react";
+import SignOut from '../Login/SignOut.js'
 import VideoGalley from "./VideoGalley.js";
 import ToolBar from "./ToolBar.js"
 const RoomPage = (props)=>{
@@ -9,6 +9,9 @@ const RoomPage = (props)=>{
         </div>
         <div>
             <ToolBar/>
+        </div>
+        <div className="btnSignOut">
+            <SignOut />  
         </div>
     </div>
     );

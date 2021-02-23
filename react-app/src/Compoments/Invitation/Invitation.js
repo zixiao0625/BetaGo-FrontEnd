@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Form, Col } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import React from 'react';
+import SignOut from '../Login/SignOut.js'
 const Invitation = (props)=>{
     return (
         <div>
@@ -18,6 +19,9 @@ const Invitation = (props)=>{
             </div>
             <div className="device_access">
                 <DeviceSetUp></DeviceSetUp>
+            </div>
+            <div className="btnSignOut">
+                <SignOut />
             </div>
         </div>
     );

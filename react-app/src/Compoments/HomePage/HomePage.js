@@ -1,9 +1,42 @@
 import './App.css';
-import React, {useState, useEffect, useRef} from 'react';
 import DeviceSetUp from './DeviceSetUp';
 import JoinForm from './JoinForm';
-import {AmplifySignOut} from '@aws-amplify/ui-react';
+import SignOut from '../Login/SignOut.js'
+import { Auth } from 'aws-amplify';
+import React, {useEffect} from 'react';
+
+let ws
+
 const HomePage = (props)=>{
+    // Get Amplify ID
+    const sessionInfo = Auth.currentSession()
+    console.log(sessionInfo)
+    // websocket connection
+    ws = new WebSocket('wss://25atqp9l07.execute-api.us-east-1.amazonaws.com/dev')
+    
+    const initWebsocket = () => {
+        ws.addEventListener("open", () => {
+          sessionInfo.then(response => {
+            console.log(response.accessToken.payload.client_id)
+          })
+          ws.send(JSON.stringify({"action": "connect", "clientId": "testing"}))
+        });
+
+        ws.onopen = () => {
+            // on connecting, do nothing but log it to the console
+            console.log('connected')
+        }
+
+
+        ws.onclose = () => {
+            console.log('disconnected')
+        }
+    }
+
+    useEffect(() => {
+        initWebsocket();
+    });
+
     return (
         <div>
             <div className="page">
@@ -16,8 +49,8 @@ const HomePage = (props)=>{
             <div className="device_access">
                 <DeviceSetUp/>
             </div>
-            <div>
-                {/* <AmplifySignOut /> */}
+            <div className="btnSignOut">
+                <SignOut />
             </div>
         </div>
     );

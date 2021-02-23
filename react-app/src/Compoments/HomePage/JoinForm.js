@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Form, Col } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import diceIcon from '../../Icons/dice_icon.svg';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 const JoinForm = (props)=> {
 
     const [room,setRoom] = useState("");
