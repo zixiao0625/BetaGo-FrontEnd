@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
 
 const VideoContainer = (props)=>{
+
     const userVideo = useRef()
     const [stream, setStream] = useState();
     // Request User's video and audio stream when compoment loading
     useEffect(() => {
-        navigator.mediaDevices.getUserMedia({ video: props.camOn, audio: true }).then(stream => {
+        navigator.mediaDevices.getUserMedia({ video: props.camOn, audio: true}).then(stream => {
             setStream(stream);
             if (userVideo.current) {
                 userVideo.current.srcObject = stream;
@@ -21,6 +22,7 @@ const VideoContainer = (props)=>{
             <video className="userVideo" playsInline muted={!props.micOn} ref={userVideo} autoPlay />
         );
     }
+
     return(
         <div>
             {UserVideo}

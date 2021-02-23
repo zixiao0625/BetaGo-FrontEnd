@@ -2,6 +2,9 @@ import React, { useState, useEffect,useRef} from "react";
 import ReactDOM from 'react-dom';
 import AgoraRTC from 'agora-rtc-sdk-ng'
 import VideoGalley from "./VideoGalley.js";
+import SignOut from '../Login/SignOut.js'
+import VideoGalley from "./VideoGalley.js";
+import ToolBar from "./ToolBar.js"
 const rtc = {
     // 用来放置本地客户端。
     client: null,
@@ -244,6 +247,12 @@ export const Room =()=>{
            Remote
             <div id="VideoGalley" width="1800px" height="1800px" ref={videoRef}></div>
             <RoomPage videoRef={videoRef}/>
+            <div>
+              <ToolBar/>
+            </div>
+            <div className="btnSignOut">
+                <SignOut />  
+            </div>
         </div>)
 }
 
