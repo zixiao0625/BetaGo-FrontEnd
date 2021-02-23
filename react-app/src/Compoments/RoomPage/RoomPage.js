@@ -1,7 +1,6 @@
 import React, { useState, useEffect,useRef} from "react";
 import ReactDOM from 'react-dom';
-import AgoraRTC from 'agora-rtc-sdk-ng'
-import VideoGalley from "./VideoGalley.js";
+import AgoraRTC from 'agora-rtc-sdk-ng';
 import SignOut from '../Login/SignOut.js'
 import VideoGalley from "./VideoGalley.js";
 import ToolBar from "./ToolBar.js"
