@@ -12,14 +12,14 @@ const HomePage = (props)=>{
     const sessionInfo = Auth.currentSession()
     console.log(sessionInfo)
     // websocket connection
-    ws = new WebSocket('wss://25atqp9l07.execute-api.us-east-1.amazonaws.com/dev')
+    ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
     
     const initWebsocket = () => {
         ws.addEventListener("open", () => {
           sessionInfo.then(response => {
             console.log(response.accessToken.payload.client_id)
+            ws.send(JSON.stringify({"action": "onMessage", "clientId": response.accessToken.payload.client_id, "userName": response.accessToken.payload.username}))
           })
-          ws.send(JSON.stringify({"action": "connect", "clientId": "testing"}))
         });
 
         ws.onopen = () => {
@@ -27,15 +27,23 @@ const HomePage = (props)=>{
             console.log('connected')
         }
 
-
         ws.onclose = () => {
             console.log('disconnected')
+            window.alert("Your session is time out!");
         }
     }
 
     useEffect(() => {
         initWebsocket();
     });
+
+    window.addEventListener('beforeunload', function (e) {
+        e.preventDefault();
+        sessionInfo.then(response => {
+            console.log(response.accessToken.payload.client_id)
+            ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
+        })
+    })
 
     return (
         <div>
@@ -50,7 +58,10 @@ const HomePage = (props)=>{
                 <DeviceSetUp/>
             </div>
             <div className="btnSignOut">
-                <SignOut />
+                <SignOut 
+                    websocket = {ws}
+                    session = {sessionInfo}
+                />
             </div>
         </div>
     );
