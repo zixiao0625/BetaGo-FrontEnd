@@ -12,7 +12,7 @@ import right from '../../Icons/right.svg'
 
 
 const ToolBar = (props)=>{
-    const [camOn,setCamOn] = useState(false);
+    const [camOn,setCamOn] = useState(true);
     const [micOn,setMicOn] = useState(true);
     const [showMusic,setMusicIcon] = useState(true);
     const [showBox,setBoxIcon] = useState(true);
