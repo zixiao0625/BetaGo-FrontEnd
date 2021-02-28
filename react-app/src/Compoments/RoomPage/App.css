@@ -16,8 +16,8 @@
 .toolbar { 
     position: absolute; 
     bottom: 0px; 
-    background: grey;
-    height: 70px;
+    background:white;
+    height: 10vh;
     width: 100%;
 }
 

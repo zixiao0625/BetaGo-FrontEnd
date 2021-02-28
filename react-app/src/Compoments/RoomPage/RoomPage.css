@@ -1,0 +1,18 @@
+#VideoGalley{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.Video{
+    flex-basis:45vh;
+    flex-grow: 1;
+
+}
+#VideoGalley{
+    position: absolute; 
+    bottom: 0px;
+    top: 0px; 
+    width: 100%;
+}

@@ -4,6 +4,7 @@ import AgoraRTC from 'agora-rtc-sdk-ng';
 import SignOut from '../Login/SignOut.js'
 import VideoGalley from "./VideoGalley.js";
 import ToolBar from "./ToolBar.js"
+import "./RoomPage.css";
 const rtc = {
     // 用来放置本地客户端。
     client: null,
@@ -22,10 +23,9 @@ var options = {
 rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 const appId= "a3624becc6624c74959bd7f7975e89ed";
 
-export const RoomPage = (props)=>{
-    // const roomID = props.match.params.roomID;
-    const client = useRef()
-    const [uid,setUid] = useState("")
+export const RoomController = (props)=>{
+    const client = useRef();
+    const [uids,setUids] = useState([]);
     const videoRef = props.videoRef;
     let localAudioTrack;
     let localVideoTrack;
@@ -34,20 +34,34 @@ export const RoomPage = (props)=>{
         localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
         localVideoTrack = await AgoraRTC.createCameraVideoTrack();
         
-        console.log("publish success!");
         client.current.on("user-published",onUserPublish);
         client.current.on("user-unpublished",onUnpublish);
-        const localContainer = document.createElement("div");
-        localContainer.id = "self";
-        localContainer.style.width = "640px";
-        localContainer.style.height = "480px";
-        document.getElementById("Local-Stream").append(localContainer);
+        client.current.on("user-joined",onUserJoin);
+        
+        // const localContainer = document.createElement("div");
+        // localContainer.id = "self";
+        // localContainer.style.width = "640px";
+        // localContainer.style.height = "480px";
+        // document.getElementById("Local-Stream").append(localContainer);
         localVideoTrack.play("self");
         const uId = await client.current.join(appId, "test", null);
         await client.current.publish([localAudioTrack, localVideoTrack]);
-        setUid(uId);
+        setUids([...uids,uId]);
     },[]);
 
+    const onUserJoin = async (user)=>{
+
+    }
+
+    const onUserLeave=async(user)=>{}
+
+    const MicMute = async ()=>{
+      await client.current.unpublish(localVideoTrack);
+    }
+
+    const VideoMute=async()=>{
+      await client.current.unpublish(localVideoTrack);
+    }
 
     const onUserPublish =async (user, mediaType) => {
         // 开始订阅远端用户。
@@ -73,8 +87,10 @@ export const RoomPage = (props)=>{
         const playerContainer = document.createElement("div");
         //   // 给这个 DIV 节点指定一个 ID，这里指定的是远端用户的 UID。
         playerContainer.id = user.uid.toString();
-        playerContainer.style.width = "640px";
-        playerContainer.style.height = "480px";
+        setUids([...uids,user.uid.toString()]);
+        playerContainer.className="Video";
+        // playerContainer.style.width = "640px";
+        // playerContainer.style.height = "480px";
         document.getElementById("VideoGalley").append(playerContainer);
       
           // 订阅完成，播放远端音视频。
@@ -127,12 +143,30 @@ export const RoomPage = (props)=>{
 
     return (
     <div>
-        "Hello"
     </div>
     );
 }
 
+export const Room =(props)=>{
+    const videoRef = useRef()
+    const roomID = props.match.params.roomID;
+    console.log(roomID);
+    return(
+        <div>
+            <div id="VideoGalley" width="100%" height="80%" >
+              <div id="self" className="Video"></div>
+            </div>
+            <div>
+              <ToolBar/>
+            </div>
+            <div className="btnSignOut">
+                <SignOut />  
+            </div>
+            <RoomController/>
+        </div>)
+}
 
+export default Room;
 
 // const StyledVideo = styled.video`
 //     height: 40%;
@@ -235,24 +269,3 @@ export const RoomPage = (props)=>{
 //         </Container>
 //     );
 // };
-
-
-export const Room =()=>{
-    const videoRef = useRef()
-    return(
-        <div>
-            Local
-           <div id="Local-Stream" ></div>
-           Remote
-            <div id="VideoGalley" width="1800px" height="1800px" ref={videoRef}></div>
-            <RoomPage videoRef={videoRef}/>
-            <div>
-              <ToolBar/>
-            </div>
-            <div className="btnSignOut">
-                <SignOut />  
-            </div>
-        </div>)
-}
-
-export default Room;

@@ -9,8 +9,12 @@ let ws
 
 const HomePage = (props)=>{
     // Get Amplify ID
-    const sessionInfo = Auth.currentSession()
-    console.log(sessionInfo)
+    const sessionInfo = Auth.currentSession();
+    sessionInfo.then(response => {
+        console.log(response.accessToken.payload.client_id)
+      })
+    console.log("INFO");
+
     // websocket connection
     ws = new WebSocket('wss://25atqp9l07.execute-api.us-east-1.amazonaws.com/dev')
     
