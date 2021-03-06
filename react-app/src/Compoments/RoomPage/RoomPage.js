@@ -5,97 +5,119 @@ import SignOut from '../Login/SignOut.js'
 import VideoGalley from "./VideoGalley.js";
 import ToolBar from "./ToolBar.js"
 import "./RoomPage.css";
-const rtc = {
-    // 用来放置本地客户端。
-    client: null,
-    localAudioTrack: null,
-    localVideoTrack: null,
-};
-var options = {
-    // 替换成你自己项目的 App ID。
-    appId: "a3624becc6624c74959bd7f7975e89ed",
-    // 传入目标频道名。
-    channel: "demo_channel_name",
-    // 如果你的项目开启了 App 证书进行 Token 鉴权，这里填写生成的 Token 值。
-    token: null,
-  };
 
-rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 const appId= "a3624becc6624c74959bd7f7975e89ed";
+
+const UserCard = (props)=>{
+  return(
+  <div id={props.uid} className="Video">
+
+  </div>)
+}
+
 
 export const RoomController = (props)=>{
     const client = useRef();
     const [uids,setUids] = useState([]);
     const videoRef = props.videoRef;
-    let localAudioTrack;
-    let localVideoTrack;
+    const[clientPrep,setClientPrep]=useState(false);
+    const localAudioTrack = useRef();
+    const localVideoTrack = useRef();
     useEffect(async ()=>{
         client.current = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-        localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        localVideoTrack = await AgoraRTC.createCameraVideoTrack();
-        
+        localAudioTrack.current = await AgoraRTC.createMicrophoneAudioTrack();
+        localVideoTrack.current = await AgoraRTC.createCameraVideoTrack();
+        client.current.on("user-joined",onUserJoin);
+        client.current.on("user-left",onUserLeft);
         client.current.on("user-published",onUserPublish);
         client.current.on("user-unpublished",onUnpublish);
-        client.current.on("user-joined",onUserJoin);
+        
         
         // const localContainer = document.createElement("div");
         // localContainer.id = "self";
         // localContainer.style.width = "640px";
         // localContainer.style.height = "480px";
         // document.getElementById("Local-Stream").append(localContainer);
-        localVideoTrack.play("self");
+        //localVideoTrack.play("self");
         const uId = await client.current.join(appId, "test", null);
-        await client.current.publish([localAudioTrack, localVideoTrack]);
-        setUids([...uids,uId]);
+        //await client.current.publish([localAudioTrack, localVideoTrack]);
+        //setUids([...uids,uId]);
+        setClientPrep(true);
+
+        return ()=>{
+          leaveCall();
+        };
     },[]);
 
+    useEffect(async()=>{
+      if(clientPrep){
+        if(props.micOn){
+          await client.current.publish([localAudioTrack.current]);
+        } else {
+          await client.current.unpublish([localAudioTrack.current]);
+        }
+        if(props.camOn){
+          await client.current.publish([localVideoTrack.current]);
+          localVideoTrack.current.play("self");
+        } else {
+          await client.current.unpublish([localVideoTrack.current]);
+          localVideoTrack.current.stop();
+        }
+      }
+    },[props.micOn,props.camOn])
+
+    
+
     const onUserJoin = async (user)=>{
-
+      // const playerContainer = document.createElement("div");
+      // //给这个 DIV 节点指定一个 ID，这里指定的是远端用户的 UID。
+      // playerContainer.id = user.uid.toString();
+      // playerContainer.innerHTML="AAA";
+      // playerContainer.className="Video";
+      // document.getElementById("VideoGalley").append(playerContainer);
+      // const playerContainer = <UserCard uid={user.uid.toString()}/>
+      // ReactDOM.render(playerContainer, document.getElementById('VideoGalley'));
+      // document.getElementById("VideoGalley").append(playerContainer);
+      props.userJoin(user.uid.toString());
     }
 
-    const onUserLeave=async(user)=>{}
-
-    const MicMute = async ()=>{
-      await client.current.unpublish(localVideoTrack);
+    const onUserLeft=async(user)=>{
+      // const PlayerContainer = document.getElementById(user.uid.toString());
+      // PlayerContainer.remove();
+      props.userLeave(user.uid.toString());
     }
 
-    const VideoMute=async()=>{
-      await client.current.unpublish(localVideoTrack);
-    }
 
     const onUserPublish =async (user, mediaType) => {
         // 开始订阅远端用户。
         await client.current.subscribe(user, mediaType);
         console.log("subscribe success");
-        console.log("I fcking get the user!!!!!");
+
         // 表示本次订阅的是视频。
         if (mediaType === "video") {
           // 订阅完成后，从 `user` 中获取远端视频轨道对象。
             
-        const remoteVideoTrack = user.videoTrack;
-        //   const PlayerContainer = React.createElement("div", {
-        //     id: user.uid.toString(),
-        //     className: "stream",
-        //     width:"480px",
-        //     height:"680px",
-        //   });
-        //   ReactDOM.render(
-        //     PlayerContainer,
-        //     document.getElementById("VideoGalley")
-        //   );
-          // 动态插入一个 DIV 节点作为播放远端视频轨道的容器。
-        const playerContainer = document.createElement("div");
-        //   // 给这个 DIV 节点指定一个 ID，这里指定的是远端用户的 UID。
-        playerContainer.id = user.uid.toString();
-        setUids([...uids,user.uid.toString()]);
-        playerContainer.className="Video";
-        // playerContainer.style.width = "640px";
-        // playerContainer.style.height = "480px";
-        document.getElementById("VideoGalley").append(playerContainer);
-      
-          // 订阅完成，播放远端音视频。
-          // 传入 DIV 节点，让 SDK 在这个节点下创建相应的播放器播放远端视频。
-        remoteVideoTrack.play(playerContainer);
+          const remoteVideoTrack = user.videoTrack;
+          //   const PlayerContainer = React.createElement("div", {
+          //     id: user.uid.toString(),
+          //     className: "stream",
+          //     width:"480px",
+          //     height:"680px",
+          //   });
+          //   ReactDOM.render(
+          //     PlayerContainer,
+          //     document.getElementById("VideoGalley")
+          //   );
+            // 动态插入一个 DIV 节点作为播放远端视频轨道的容器。
+          // const playerContainer = document.createElement("div");
+          // playerContainer.id = user.uid.toString();
+          // setUids([...uids,user.uid.toString()]);
+          // playerContainer.className="Video";
+          // document.getElementById("VideoGalley").append(playerContainer);
+        
+            // 订阅完成，播放远端音视频。
+            // 传入 DIV 节点，让 SDK 在这个节点下创建相应的播放器播放远端视频。
+          remoteVideoTrack.play(user.uid.toString());
       
           // 也可以只传入该 DIV 节点的 ID。
           // remoteVideoTrack.play(playerContainer.id);
@@ -108,21 +130,27 @@ export const RoomController = (props)=>{
           // 播放音频因为不会有画面，不需要提供 DOM 元素的信息。
           remoteAudioTrack.play();
         }
-        console.log("Subscribe User:");
-        console.log(user.uid.toString());
     }
 
 
 
-    const onUnpublish = (user, mediaType) => {
-        if (mediaType === "video") {
-        // 获取刚刚动态创建的 DIV 节点。
-            var u_id = user.uid.toString();
-            const PlayerContainer = document.getElementById(user.uid.toString());
-            PlayerContainer.remove();
+    const onUnpublish = async(user, mediaType) => {
+        // await client.current.subscribe(user, mediaType);
+        // if (mediaType === "video") {
+        // // 获取刚刚动态创建的 DIV 节点。
+        //     // var u_id = user.uid.toString();
+        //     // const PlayerContainer = document.getElementById(user.uid.toString());
+        //     // PlayerContainer.remove();
+        //     const remoteVideoTrack = user.videoTrack;
+        //     remoteVideoTrack.stop(user.uid.toString());
+        // }
 
-
-        }
+        // if (mediaType === "audio") {
+        //   // 订阅完成后，从 `user` 中获取远端音频轨道对象。
+        //   const remoteAudioTrack = user.audioTrack;
+        //   // 播放音频因为不会有画面，不需要提供 DOM 元素的信息。
+        //   remoteAudioTrack.stop();
+        // }
     }
     async function leaveCall() {
         // 销毁本地音视频轨道。
@@ -132,13 +160,15 @@ export const RoomController = (props)=>{
         // 遍历远端用户。
         client.current.remoteUsers.forEach(user => {
           // 销毁动态创建的 DIV 节点。
-          const playerContainer = document.getElementById(user.uid);
-          playerContainer && playerContainer.remove();
+          // const playerContainer = document.getElementById(user.uid);
+          // playerContainer && playerContainer.remove();
+          props.userLeave(user.uid.toString());
         });
       
         // 离开频道。
         await client.current.leave();
     }
+
 
 
     return (
@@ -148,21 +178,55 @@ export const RoomController = (props)=>{
 }
 
 export const Room =(props)=>{
-    const videoRef = useRef()
+    const[micOn,setMicOn]=useState(false);
+    const[camOn,setCamOn]=useState(false);
+    const[users,setUsers]=useState([]);
     const roomID = props.match.params.roomID;
     console.log(roomID);
+    const onMicClick = ()=>{
+      setMicOn(!micOn)
+    }
+
+    const onCamClick=()=>{
+      setCamOn(!camOn);
+    }
+
+    const userJoin=(uid)=>{
+      // console.log("temADD");
+      // console.log(users);
+      setUsers(users=>[...users,uid]);
+      // let temp = [...users];
+      // temp.push(uid);
+      // setUsers(temp);
+    }
+
+    const userLeave=(uid)=>{
+      // let temp = [...users];
+      // console.log("temp");
+      // console.log(temp);
+      setUsers(users=>[...users].filter(item=>item!==uid));
+      // setUsers(temp.filter(item => item !== uid));
+    }
+    useEffect(()=>{
+      console.log("user change");
+      console.log(users);
+    },[users])
+
     return(
         <div>
             <div id="VideoGalley" width="100%" height="80%" >
               <div id="self" className="Video"></div>
+              {users.map(user=>{
+                return <UserCard key={user} uid={user}/>
+              })}
             </div>
             <div>
-              <ToolBar/>
+              <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick}/>
             </div>
             <div className="btnSignOut">
                 <SignOut />  
             </div>
-            <RoomController/>
+            <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn}/>
         </div>)
 }
 
