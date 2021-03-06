@@ -15,10 +15,12 @@ const FriendTest= (props) =>{
         console.log(requests);
     },[requests])//console log the requests list
     const sendtoB = ()=>{
-        sendRequest("bbb");
+        let result = sendRequest("bbb");
+        console.log(result);
     }
     const sendToA=()=>{
-        sendRequest("aaa");
+        let result = sendRequest("aaa");
+        console.log(result);
     }
 
     const confirmA = ()=>{

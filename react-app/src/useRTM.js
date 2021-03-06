@@ -42,7 +42,7 @@ const useAgoraRtm = (userID,RtmClient) => {
           return "Request Send";
         } else {
           // 你的代码：服务器已收到消息，对端未收到消息。
-          return "Request Send";
+          return "Request Send but user offline";
         }
       }).catch(error => {
         // 你的代码：点对点消息发送失败。
