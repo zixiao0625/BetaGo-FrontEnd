@@ -12,21 +12,22 @@ import right from '../../Icons/right.svg'
 
 
 const ToolBar = (props)=>{
-    const [camOn,setCamOn] = useState(true);
-    const [micOn,setMicOn] = useState(true);
+    // const [camOn,setCamOn] = useState(true);
+    // const [micOn,setMicOn] = useState(true);
     const [showMusic,setMusicIcon] = useState(true);
     const [showBox,setBoxIcon] = useState(true);
     const [showChat,setChatIcon] = useState(true);
     const [showLeft,setLeftIcon] = useState(true);
     const [showRight,setRightIcon] = useState(false);
-
+    const camOn = props.camOn;
+    const micOn = props.micOn;
     
     const clickMicIcon = () => {
-        setMicOn(!micOn);
+        props.onMicClick();
     }
 
     const clickCamIcon = () => {
-        setCamOn(!camOn);
+        props.onCamClick();
     }
 
     const clickMusicIcon = (event) => {
