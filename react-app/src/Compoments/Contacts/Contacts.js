@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./Contacts.css";
 
 
 function Contacts(props) {
@@ -11,7 +11,7 @@ function Contacts(props) {
   
 
   return (
-    <div className="box">
+    <div className="box_container">
       <div className="contacts pingfangtc-medium-black-20px">{contacts}
       </div>
       <div className="person_list">

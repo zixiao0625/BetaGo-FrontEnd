@@ -55,7 +55,7 @@
   font-style: normal;
   font-weight: 500;
 }
-.box {
+.box_container {
   position:absolute;
   right: 0px;
   height: 300px;
