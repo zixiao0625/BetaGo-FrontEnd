@@ -20,6 +20,8 @@ function App() {
         <Route exact path="/room" component={HomePage} />
         <Route exact path="/room/:roomid" component={Room} />
         <Route exact path="/invitation" component={Invitation} />
+        <Route exact path="/Contacts" component={Contacts} />
+
         <Redirect to="/" />
       </Switch>
     </HashRouter>
