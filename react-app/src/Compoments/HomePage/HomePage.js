@@ -11,8 +11,8 @@ const HomePage = (props)=>{
     // Get Amplify ID
     const sessionInfo = Auth.currentSession();
     sessionInfo.then(response => {
-        console.log(response.accessToken.payload.client_id)
-      })
+        console.log(response.idToken.payload.sub)
+    })
     console.log("INFO");
 
     // websocket connection
@@ -21,8 +21,7 @@ const HomePage = (props)=>{
     const initWebsocket = () => {
         ws.addEventListener("open", () => {
           sessionInfo.then(response => {
-            console.log(response.accessToken.payload.client_id)
-            ws.send(JSON.stringify({"action": "onMessage", "clientId": response.accessToken.payload.client_id, "userName": response.accessToken.payload.username}))
+            ws.send(JSON.stringify({"action": "onMessage", "clientId": response.idToken.payload.sub, "userName": response.accessToken.payload.username}))
           })
         });
 
@@ -44,7 +43,7 @@ const HomePage = (props)=>{
     window.addEventListener('beforeunload', function (e) {
         e.preventDefault();
         sessionInfo.then(response => {
-            console.log(response.accessToken.payload.client_id)
+            console.log(response.idToken.payload.sub)
             ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
         })
     })
