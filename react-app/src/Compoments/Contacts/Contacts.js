@@ -1,8 +1,7 @@
 import React from "react";
-import "./style.css";
+import "./Contacts.css";
 import demoPic from '../../Icons/avatar.jpg'
 import { Auth } from 'aws-amplify';
-import { withAuthenticator } from "@aws-amplify/ui-react";
 
 class Contacts extends React.Component {
   constructor(props) {
