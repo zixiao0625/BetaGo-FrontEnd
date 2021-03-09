@@ -109,7 +109,7 @@ function RoomList(props) {
                   statusonlineProps={overlapgroup5Props.statusonlineProps}
                 />
                 <div className="auto-flex">
-                  <div className="name-5 pingfangtc-medium-black-10px">{name2}</div>
+                  <div className="name-5 pingfangtc-medium-black-10px nowrap">{name2}</div>
                   <div className="online pingfangtc-medium-concord-8px">{online}</div>
                 </div>
                 <Group63 Join={group63Props.Join} />
@@ -120,7 +120,7 @@ function RoomList(props) {
                   statusonlineProps={overlapgroup52Props.statusonlineProps}
                 />
                 <div className="auto-flex1">
-                  <div className="zixiao-huang pingfangtc-medium-black-10px">{zixiaoHuang}</div>
+                  <div className="zixiao-huang pingfangtc-medium-black-10px nowrap">{zixiaoHuang}</div>
                   <div className="status pingfangtc-medium-concord-8px">{status}</div>
                 </div>
                 <Group63 Join={group632Props.Join} className="group-63-1" />
@@ -131,7 +131,7 @@ function RoomList(props) {
                   statusonlineProps={overlapgroup53Props.statusonlineProps}
                 />
                 <div className="auto-flex2">
-                  <div className="name-6 pingfangtc-medium-black-10px">{name3}</div>
+                  <div className="name-6 pingfangtc-medium-black-10px nowrap">{name3}</div>
                   <div className="room-name pingfangtc-medium-concord-8px">{roomName}</div>
                 </div>
                 <Group63 Join={group633Props.Join} className="group-63-2" />
@@ -146,7 +146,7 @@ function RoomList(props) {
                   />
                 </div>
                 <div className="auto-flex3">
-                  <div className="name-7 pingfangtc-medium-black-10px">{name4}</div>
+                  <div className="name-7 pingfangtc-medium-black-10px nowrap">{name4}</div>
                   <div className="time pingfangtc-medium-concord-8px">{time}</div>
                 </div>
                 <Group63 Join={group634Props.Join} className="group-63-3" />
