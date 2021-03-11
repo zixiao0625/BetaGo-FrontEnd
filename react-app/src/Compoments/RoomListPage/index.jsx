@@ -121,7 +121,7 @@ function RoomList(props) {
                 />
                 <div className="auto-flex1">
                   <div className="zixiao-huang pingfangtc-medium-black-10px nowrap">{zixiaoHuang}</div>
-                  <div className="status pingfangtc-medium-concord-8px">{status}</div>
+                  <div className="status pingfangtc-medium-concord-8px">{online}</div>
                 </div>
                 <Group63 Join={group632Props.Join} className="group-63-1" />
               </div>
@@ -132,7 +132,7 @@ function RoomList(props) {
                 />
                 <div className="auto-flex2">
                   <div className="name-6 pingfangtc-medium-black-10px nowrap">{name3}</div>
-                  <div className="room-name pingfangtc-medium-concord-8px">{roomName}</div>
+                  <div className="room-name pingfangtc-medium-concord-8px">{online}</div>
                 </div>
                 <Group63 Join={group633Props.Join} className="group-63-2" />
               </div>
