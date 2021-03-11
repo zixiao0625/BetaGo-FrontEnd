@@ -29,6 +29,7 @@ class Contacts extends React.Component {
   getFriendId = async () => {
     const sessionInfo = Auth.currentSession();
     const origin = window.location.origin
+    console.log(origin)
     // get each friend's clientId
     // sessionInfo.then(response => {
     //   // get current client ID
@@ -58,12 +59,12 @@ class Contacts extends React.Component {
     const clientId = session.idToken.payload.sub
     this.setState({ clientId: clientId})
     const url = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json',
-                'origin': origin
-               }
-    })
+    const response = await fetch(url)
+    //  , {
+    //   method: 'GET',
+    //   headers: { 'Content-Type': 'application/json'
+    //            }
+    // }
     const data = await response.json()
     const length = data['friends']['L'].length
     if (length !== 0) {
@@ -102,8 +103,7 @@ class Contacts extends React.Component {
       // })
       const response = await fetch(api, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json',
-                    'origin': origin
+        headers: { 'Content-Type': 'application/json'
                  }
       }) 
       const data = await response.json()
