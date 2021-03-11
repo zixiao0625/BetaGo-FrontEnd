@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-
+import Contact from './Contacts.js'
 function RoomListPage() {
   return <RoomList {...RoomListData} />;
 }
@@ -101,7 +101,7 @@ function RoomList(props) {
           </div>
           <img className="divider" src={divider} />
           <div className="right">
-            <div className="contacts pingfangtc-medium-black-25px">{contacts}</div>
+            {/* <div className="contacts pingfangtc-medium-black-25px">{contacts}</div>
             <div className="list border-class-1">
               <div className="contact">
                 <Overlapgroup5
@@ -151,7 +151,8 @@ function RoomList(props) {
                 </div>
                 <Group63 Join={group634Props.Join} className="group-63-3" />
               </div>
-            </div>
+            </div> */}
+            <Contact/>
           </div>
         </div>
         <div className="new-room-btn">
