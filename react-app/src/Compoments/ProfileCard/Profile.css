@@ -1,0 +1,111 @@
+
+  .bottom {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    min-height: 72px;
+    position: relative;
+    width: 206px;
+  }
+  .name {
+    letter-spacing: 0.00px;
+    margin-left: 14px;
+    min-height: 20px;
+    min-width: 81px;
+  }
+  .name-card {
+    align-items: flex-start;
+    display: flex;
+    min-width: 206px;
+    position: relative;
+  }
+  .overlap-group {
+    align-items: center;
+    background-color: var(--tea-green);
+    border-radius: 7px;
+    display: flex;
+    height: 24px;
+    padding: 0 10px;
+  }
+  .profile {
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.3);;
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    padding: 16px 0;
+    width: 238px;
+  }
+  .profile-pic {
+    height: 50px;
+    width: 50px;
+  }
+  .biotext {
+    align-self: flex-start;
+    letter-spacing: 0.00px;
+    line-height: 11px;
+    margin-left: 16px;
+    margin-top: 20px;
+    min-height: 33px;
+  }
+  .addFriend {
+    letter-spacing: 0.00px;
+    min-height: 14px;
+    min-width: 64px;
+  }
+
+  .group-20 {
+    height: 20px;
+    width: 20px;
+  }
+  
+  .pingfangtc-medium-apple-10px {
+    color: var(--apple);
+    font-family: "PingFang TC-Medium", Helvetica;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+  }
+  .pingfangtc-medium-black-14px {
+    color: black;
+    font-family: "PingFang TC-Medium", Helvetica;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+  .pingfangtc-medium-black-8px {
+    color: black;
+    font-family: "PingFang TC-Medium", Helvetica;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 500;
+  }
+  .pingfangtc-regular-normal-black-8px {
+    color: black;
+    font-family: "PingFang TC-Regular", Helvetica;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  .pingfangtc-regular-normal-concord-8px {
+    color: var(--concord);
+    font-family: "PingFang TC-Regular", Helvetica;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  .roboto-normal-black-8px {
+    color: var(--black);
+    font-family: "Roboto", Helvetica;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  /* :root {
+    --apple: rgba(84, 184, 67, 1);
+    --black: rgba(0, 0, 0, 0.67);
+    --concord: rgba(124, 124, 124, 1);
+    --tea-green: rgba(209, 234, 189, 0.5);
+  } */
+  
