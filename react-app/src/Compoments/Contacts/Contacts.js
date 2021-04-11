@@ -30,41 +30,12 @@ class Contacts extends React.Component {
     const sessionInfo = Auth.currentSession();
     const origin = window.location.origin
     console.log(origin)
-    // get each friend's clientId
-    // sessionInfo.then(response => {
-    //   // get current client ID
-    //   const clientId = response.idToken.payload.sub
-    //   this.setState({ clientId: clientId})
-    //   // define api to get friend list
-    //   const url = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId
-    //   return fetch(url, {
-    //     method: 'GET',
-    //     headers: { 'Content-Type': 'application/json',
-    //               'origin': origin
-    //             }
-    //   }).then((response) => {
-    //     return response.json().then((data) => {
-    //     const length = data['friends']['L'].length
-    //     if (length !== 0) {
-    //       var targetList = this.state.friendId
-    //       data['friends']['L'].forEach(function(item){
-    //         targetList.push(item['S'])
-    //       }) 
-    //       this.setState({ friendId: targetList })
-    //     }
-    //     })
-    //   })
-    // })
+
     const session = await sessionInfo
     const clientId = session.idToken.payload.sub
     this.setState({ clientId: clientId})
     const url = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId
     const response = await fetch(url)
-    //  , {
-    //   method: 'GET',
-    //   headers: { 'Content-Type': 'application/json'
-    //            }
-    // }
     const data = await response.json()
     const length = data['friends']['L'].length
     if (length !== 0) {
@@ -102,10 +73,7 @@ class Contacts extends React.Component {
       //   })
       // })
       const response = await fetch(api, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json'
-                 }
-      }) 
+        method: 'GET'})
       const data = await response.json()
       var userName = data['userName']['S']
       userNames.push(userName)
@@ -131,26 +99,6 @@ class Contacts extends React.Component {
       <div className="boxContainer">
         <div className="contacts pingfangtc-medium-black-20px">Contacts
         </div>
-        {/* <div className="person_list">
-          <div className="each-person">
-            <img className="picture" src = {demoPic} />Nicholas Xu
-            <button className="button">Join</button>
-          </div>
-        </div>
-
-        <div className="person_list">
-          <div className="each-person">
-            <img className="picture" src = {demoPic} />Zixao Huang
-            <button className="button">Join</button>
-          </div>
-        </div>
-
-        <div className="person_list">
-          <div className="each-person">
-            <img className="picture" src = {demoPic} />Vanessa
-            <button className="button">Join</button>
-          </div>
-        </div> */}
         {
           this.state.userNameList.map((userName) => {
             return (
@@ -162,8 +110,7 @@ class Contacts extends React.Component {
               </div>
             )
           })
-        }
-        
+        }        
       </div>
     );
   }
