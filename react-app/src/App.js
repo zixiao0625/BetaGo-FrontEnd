@@ -1,6 +1,7 @@
 import HomePage from './Compoments/HomePage/HomePage.js'
 import {RoomPage,Room} from './Compoments/RoomPage/RoomPage.js'
 import Invitation from './Compoments/Invitation/Invitation.js'
+import RoomListPage from './Compoments/RoomListPage/index.jsx'
 import Login from './Compoments/Login/Login.js'
 import Contacts from './Compoments/Contacts/Contacts.js'
 import React, { useState, useEffect } from "react";
@@ -17,7 +18,7 @@ function App() {
   return (
     <HashRouter>
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={RoomListPage} />
         <Route exact path="/room" component={HomePage} />
         <Route exact path="/room/:roomid" component={Room} />
         <Route exact path="/invitation" component={Invitation} />
