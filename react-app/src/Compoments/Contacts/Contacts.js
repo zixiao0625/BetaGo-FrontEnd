@@ -3,6 +3,9 @@ import "./Contacts.css";
 import demoPic from '../../Icons/avatar.jpg'
 import { Auth } from 'aws-amplify';
 import ContactItem from "./Contact_Item";
+import Button from '@material-ui/core/Button'
+import UploadCard from "./UploadCard";
+import { Popover } from '@material-ui/core';
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -71,7 +74,7 @@ class Contacts extends React.Component {
   componentDidMount = async () => {
     await this.getFriendId()
   }
-  
+
   render = () => {
     let friendId = this.state.friendId
     return friendId.length === 0 ? <div>
@@ -97,7 +100,7 @@ class Contacts extends React.Component {
               <ContactItem client_Id={friend_Id} />
             )
           })
-        }        
+        }      
       </div>
     );
   }

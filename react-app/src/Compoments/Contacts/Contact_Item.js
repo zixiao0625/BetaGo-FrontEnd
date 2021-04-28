@@ -3,6 +3,7 @@ import "./Contacts.css";
 import demoPic from '../../Icons/avatar.jpg'
 import Profile from './Profile.js'
 import { Popover } from '@material-ui/core';
+import UploadCard from "./UploadCard";
 
 const ContactItem = (client_ID, ...props) => {
 
@@ -82,6 +83,23 @@ const ContactItem = (client_ID, ...props) => {
             addFriend="+ Add Friend"
             style={{height: 'auto'}}
           />
+        </Popover>
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          style={{height: '600px'}}
+        >
+          <UploadCard />
         </Popover>
       </div>
     )
