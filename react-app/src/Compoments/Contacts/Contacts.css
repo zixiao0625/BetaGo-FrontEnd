@@ -57,11 +57,22 @@
 }
 
 .boxContainer {
-  position:absolute;
+  position: relative;
   right: 0px;
-  height: 300px;
-  width:200px;
+  height: 500px;
+  width: 208px;
+  margin-left: 70%;
+  margin-top: 20px;
+  border: 2px solid #73AD21;
+  border-radius: 25px;
+  padding-left: 3px;
+  overflow: auto;
 }
+
+/* .nameList {
+  border:1px solid black;
+} */
+
 .each-person {
   letter-spacing: 0px;
   color: black;

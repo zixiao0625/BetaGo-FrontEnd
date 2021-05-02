@@ -5,6 +5,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import TextField from '@material-ui/core/TextField';
 import { Paper, Box, FormControl, OutlinedInput, InputLabel } from '@material-ui/core'
 import axios from 'axios'
+import Dropzone from 'react-dropzone'
+import request from 'superagent'
 import { Auth } from 'aws-amplify';
 
 const UploadCard = () => {
@@ -13,6 +15,10 @@ const UploadCard = () => {
     const [name, setName] = useState('')
     const [userBio, setUserBio] = useState('')
     const [clientId, setClientId] = useState('')
+    const [uploadedFileCloudinaryUrl, setUploadedFileCloudinaryUrl] = useState('')
+    const [uploadFile, setUploadFile] = useState('')
+    const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
+    const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dkvlfehys/upload';
 
     const onNameChange = (event) => {
         
@@ -40,6 +46,28 @@ const UploadCard = () => {
         }
     }
 
+    const handleImageUpload = (file) => {
+        let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                        .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                        .field('file', file)
+
+        upload.end((err, response) => {
+            if (err) {
+                console.error(err);
+            }
+            console.log(response)
+            if (response.body.secure_url !== '') {
+                console.log(response.body.secure_url)
+                setUploadedFileCloudinaryUrl(response.body.secure_url)
+            }
+        })
+    }
+
+    const onImageDrop = (files) => {
+        setUploadFile(files[0])
+        handleImageUpload(files[0])
+    }
+
     return (
         <div>
             <Box>
@@ -57,6 +85,20 @@ const UploadCard = () => {
                         onChange={onNameChange}
                     />
                     {/* something for avatar */}
+                    <Dropzone
+                        multiple={false}
+                        accept="image/*"
+                        onDrop={onImageDrop}>
+                        {({getRootProps, getInputProps}) => (
+                            <section style={{ border: '1px solid black', marginBottom: '15px' }}>
+                            <div {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                            </div>
+                            </section>
+                        )}
+                        {/* <p>Drop an image or click to select a file to upload.</p> */}
+                    </Dropzone>
                     <TextField
                         id="outlined-multiline-static"
                         label="Multiline"
@@ -68,8 +110,8 @@ const UploadCard = () => {
                     />
                 </Box>
                   {alertMessage !== '' && <Typography style={{ fontSize: 12, fontWeight: 400, color: 'red', textAlign: 'center' }}> {alertMessage} </Typography>}
-                  <Button variant="contained" aligh="left" onClick={handleClick}>
-                    SCHEDULE NOW
+                  <Button variant="contained" aligh="left" onClick={handleClick} style={{ position: 'relative', right: '45px' }}>
+                    Upload Change
                   </Button>
             </Box>
         </div>

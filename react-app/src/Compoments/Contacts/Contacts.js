@@ -6,6 +6,7 @@ import ContactItem from "./Contact_Item";
 import Button from '@material-ui/core/Button'
 import UploadCard from "./UploadCard";
 import { Popover } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -77,32 +78,37 @@ class Contacts extends React.Component {
 
   render = () => {
     let friendId = this.state.friendId
-    return friendId.length === 0 ? <div>
-                                    <div className="boxContainer">
-                                      <div className="contacts pingfangtc-medium-black-20px">Contacts
-                                      </div>
-                                    </div>
-                                  </div> : (
-      <div className="boxContainer">
-        <div className="contacts pingfangtc-medium-black-20px">Contacts
-        </div>
-        {
-          this.state.friendId.map((friend_Id) => {
-            // return (
-            //   <div className="" key={userName}>
-            //     <div className="each-person">
-            //       <img className="picture" src = {demoPic} alt="contact_list" />{userName}
-            //       <button className="button">Join</button>
-            //     </div>
-            //   </div>
-            // )
-            return (
-              <ContactItem client_Id={friend_Id} />
-            )
-          })
-        }      
-      </div>
-    );
+    return friendId.length === 0 
+            ? <div>
+                <div className="boxContainer">
+                  <div className="contacts pingfangtc-medium-black-20px">Contacts
+                  </div>
+                </div>
+              </div> 
+            : (
+              <div className="boxContainer">
+                <div className="contacts pingfangtc-medium-black-20px">Contacts
+                </div>
+                <Box borderRadius={16}>
+                {
+                  this.state.friendId.map((friend_Id) => {
+                    console.log(friend_Id)
+                    // return (
+                    //   <div className="" key={userName}>
+                    //     <div className="each-person">
+                    //       <img className="picture" src = {demoPic} alt="contact_list" />{userName}
+                    //       <button className="button">Join</button>
+                    //     </div>
+                    //   </div>
+                    // )
+                    return (
+                      <ContactItem client_Id={friend_Id} />
+                    )
+                  })
+                } 
+                </Box>
+              </div>
+              );
   }
 
 }

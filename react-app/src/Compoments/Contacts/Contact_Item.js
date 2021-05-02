@@ -84,23 +84,6 @@ const ContactItem = (client_ID, ...props) => {
             style={{height: 'auto'}}
           />
         </Popover>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          style={{height: '600px'}}
-        >
-          <UploadCard />
-        </Popover>
       </div>
     )
 }
