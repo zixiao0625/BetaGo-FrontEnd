@@ -202,7 +202,12 @@ const RoomListPage = () => {
         <Profile
           profilePic={avatar}
           name={userName}
-          bio_text={userBio}
+          bio_text={
+            <>
+              Your Bio:
+              <br />
+              {userBio}
+            </>}
           // addFriend="+ Add Friend"
           style={{height: 'auto'}}
         />

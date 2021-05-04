@@ -21,10 +21,8 @@ const ContactItem = (client_ID, ...props) => {
       const data = await response.json()
       setUserName(data['userName']['S'])
       data['onlineStatus']['BOOL'] ? setStatus("online") : setStatus("offline")
-
       // get avatar
-      // setAvatar('../../Icons/avatar.jpg')
-
+      setAvatar(data['avatar']['S'])
       // get online status
       setUserBio(data['userBio']['S'])
 
@@ -70,14 +68,13 @@ const ContactItem = (client_ID, ...props) => {
           style={{height: '600px'}}
         >
           <Profile
-            profilePic="https://anima-uploads.s3.amazonaws.com/projects/603f96b6a6fa0860cddc1b17/releases/607298fb5ec03fa5072c8f31/img/profile-pic@2x.png"
-            name="Nicholas Xu"
+            profilePic={avatar}
+            name={userName}
             bio_text={
               <>
-                Who said I don’t party
+                Your Bio:
                 <br />
-                UW 21 | Seattle | Shenzhen
-                <br />A product guy en route
+                {userBio}
               </>
             }
             addFriend="+ Add Friend"
