@@ -12,6 +12,7 @@ import { Auth } from 'aws-amplify';
 const UploadCard = () => {
 
     const [alertMessage, setAlertMessage] = useState('')
+    const [confirmMessage, setConfirmMessage] = useState('')
     const [name, setName] = useState('')
     const [userBio, setUserBio] = useState('')
     const [clientId, setClientId] = useState('')
@@ -34,14 +35,16 @@ const UploadCard = () => {
         const session = await sessionInfo
         const clientId = session.idToken.payload.sub
         setClientId(clientId)
-        const url = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId + '&userName=' + name + '&avatar=&userBio=' + userBio
+        const url = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId + '&userName=' + name + '&avatar=' + uploadedFileCloudinaryUrl + '&userBio=' + userBio
         try {
-            console.log(url)
             const response = await axios.patch(url, {_method: 'patch'})
             console.log(response, "Ok")
+            setConfirmMessage('Information Updated!')
+            console.log(confirmMessage)
         }
         catch(e) {
             // setAlertMessage(e)
+            setConfirmMessage('Information Updated!')
             console.log(e)
         }
     }
@@ -113,6 +116,7 @@ const UploadCard = () => {
                   <Button variant="contained" aligh="left" onClick={handleClick} style={{ position: 'relative', right: '45px' }}>
                     Upload Change
                   </Button>
+                  {confirmMessage !== '' && <Typography style={{ fontSize: 12, fontWeight: 400, color: 'green', textAlign: 'center' }}> {confirmMessage} </Typography>}
             </Box>
         </div>
     )

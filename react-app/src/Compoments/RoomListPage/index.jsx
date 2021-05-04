@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import "./bootstrap.min.css"
 import { Box } from "@material-ui/core"
@@ -13,8 +13,9 @@ require('bootstrap')
 
 //You need this npm package to do createReactClass
 const RoomListPage = () => {
-  const [pop, setPop] = useState(false)
-  const [profile, setProfile] = useState(false)
+  const [userName, setUserName] = useState('')
+  const [userBio, setUserBio] = useState('')
+  const [avatar, setAvatar] = useState('')
   const [anchorEl, setAnchorEl] = useState(null)
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElEdit, setAnchorElEdit] = useState(null)
@@ -47,6 +48,24 @@ const RoomListPage = () => {
     setAnchorElEdit(event.currentTarget)
   }
 
+  // get current user Info
+  const getInfo = async() => {
+    const sessionInfo = Auth.currentSession();
+    const session = await sessionInfo
+    const clientId = session.idToken.payload.sub
+    // get user name
+    const api = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId
+    const response = await fetch(api, {
+    method: 'GET'})
+    const data = await response.json()
+    // name
+    setUserName(data['userName']['S'])
+    // get avatar
+    setAvatar(data['avatar']['S'])
+    // get online status
+    setUserBio(data['userBio']['S'])
+  }
+
   const signOut = () => {
     // Get Amplify ID
     const sessionInfo = Auth.currentSession();
@@ -54,15 +73,63 @@ const RoomListPage = () => {
         console.log(response.idToken.payload.sub)
     })
 
-    // websocket connection
+    // websocket connection; Sign Out
     const ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
     sessionInfo.then(response => {
-        console.log(response.idToken.payload.sub)
+        // console.log(JSON.stringify({"action": "updateStatus", "clientId": response.idToken.payload.sub}))
         ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.idToken.payload.sub}))
     })
     Auth.signOut()
     window.location = "/"
   }
+
+  // Launch websocket connection, update user online status
+  // Get Amplify ID
+  const sessionInfo = Auth.currentSession();
+  sessionInfo.then(response => {
+      console.log(response.idToken.payload.sub)
+  })
+  console.log("INFO");
+
+  // websocket connection
+  let ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
+  
+  const initWebsocket = () => {
+      ws.addEventListener("open", () => {
+        sessionInfo.then(response => {
+          ws.send(JSON.stringify({"action": "onMessage", "clientId": response.idToken.payload.sub, "userName": response.accessToken.payload.username}))
+        })
+      });
+
+      ws.onopen = () => {
+          // on connecting, do nothing but log it to the console
+          console.log('connected')
+      }
+
+      ws.onclose = () => {
+          console.log('disconnected')
+          window.alert("Your session is time out!");
+      }
+  }
+
+  useEffect(() => {
+    // update user online
+    initWebsocket()
+  }, [])
+
+  useEffect(() => {
+    getInfo()
+  })
+
+  // update user offline if user leave the page
+  window.addEventListener('beforeunload', function (e) {
+      e.preventDefault();
+      sessionInfo.then(response => {
+          console.log(response.idToken.payload.sub)
+          ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
+      })
+  })
+
 
   return(
     <div>
@@ -83,7 +150,7 @@ const RoomListPage = () => {
                 data-bs-toggle="dropdown" 
                 aria-expanded="true"
                 onClick={handleClick}>
-                <img src="https://github.com/mdo.png" alt="mdo" width={32} height={32} className="rounded-circle" />
+                <img src={avatar} alt="mdo" width={32} height={32} className="rounded-circle" />
               </a>
               <Popover
                 id='simple-popover'
@@ -133,17 +200,10 @@ const RoomListPage = () => {
         style={{height: '600px'}}
       >
         <Profile
-          profilePic="https://anima-uploads.s3.amazonaws.com/projects/603f96b6a6fa0860cddc1b17/releases/607298fb5ec03fa5072c8f31/img/profile-pic@2x.png"
-          name="Nicholas Xu"
-          bio_text={
-            <>
-              Who said I don’t party
-              <br />
-              UW 21 | Seattle | Shenzhen
-              <br />A product guy en route
-            </>
-          }
-          addFriend="+ Add Friend"
+          profilePic={avatar}
+          name={userName}
+          bio_text={userBio}
+          // addFriend="+ Add Friend"
           style={{height: 'auto'}}
         />
       </Popover>
