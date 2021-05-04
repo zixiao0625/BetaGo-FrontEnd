@@ -4,6 +4,7 @@ import AgoraRTM from 'agora-rtm-sdk'
 
 
 const useAgoraRtm = (userID,RtmClient) => {
+  // fetch db
   const [requests, setRequests] = useState([]);
   const initRtm = async () => {
     await RtmClient.login({uid: userID});

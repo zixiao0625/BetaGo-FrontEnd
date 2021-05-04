@@ -3,6 +3,9 @@ import {RoomPage,Room} from './Compoments/RoomPage/RoomPage.js'
 import Invitation from './Compoments/Invitation/Invitation.js'
 import RoomListPage from './Compoments/RoomListPage/index.jsx'
 import Login from './Compoments/Login/Login.js'
+import Contacts from './Compoments/Contacts/Contacts.js'
+import ProfileCard from './Compoments/ProfileCard/Profile.js'
+import UploadCard from './Compoments/Contacts/UploadCard.js'
 import React, { useState, useEffect } from "react";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import { withAuthenticator, AmplifySignOut} from '@aws-amplify/ui-react';
@@ -21,6 +24,10 @@ function App() {
         <Route exact path="/room" component={HomePage} />
         <Route exact path="/room/:roomid" component={Room} />
         <Route exact path="/invitation" component={Invitation} />
+        <Route exact path="/Contacts" component={Contacts} />
+        <Route exact path="/ProfileCard" component={ProfileCard} />
+        <Route exact path="/upload" component={UploadCard} />
+
         {
         // for test only
         }
