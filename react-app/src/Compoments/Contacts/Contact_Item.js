@@ -48,7 +48,10 @@ const ContactItem = (client_ID, ...props) => {
   return (
       <div className="" key={userName}>
         <div className="each-person" onClick={handleClick}>
-          <img className="picture" src = {demoPic} alt="contact_list" style={{position: 'inline'}}/> {userName}
+          {avatar === ''
+            ? <img className="picture" src = {demoPic} alt="contact_list" style={{position: 'inline'}}/>
+            : <img className="picture" src = {avatar} alt="contact_list" style={{position: 'inline'}}/> }
+          {userName}
           <span style={{position: 'relative', top: '15px'}}>{status}</span>
           <button className="button">Join</button>
         </div>
