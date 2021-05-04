@@ -48,6 +48,12 @@ const RoomListPage = () => {
     setAnchorElEdit(event.currentTarget)
   }
 
+  const handleInvitation = () => {
+    const origin = window.origin
+    console.log(origin)
+    window.location = toString(origin) + "/#/invitation"
+  }
+
   // get current user Info
   const getInfo = async() => {
     const sessionInfo = Auth.currentSession();
@@ -68,16 +74,12 @@ const RoomListPage = () => {
 
   const signOut = () => {
     // Get Amplify ID
-    const sessionInfo = Auth.currentSession();
-    sessionInfo.then(response => {
-        console.log(response.idToken.payload.sub)
-    })
+    const sessionInfo = Auth.currentSession()
 
     // websocket connection; Sign Out
     const ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
     sessionInfo.then(response => {
-        // console.log(JSON.stringify({"action": "updateStatus", "clientId": response.idToken.payload.sub}))
-        ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.idToken.payload.sub}))
+        ws.send(JSON.stringify({"action": "updateStatus", "cliendId": response.idToken.payload.sub}))
     })
     Auth.signOut()
     window.location = "/"
@@ -170,7 +172,7 @@ const RoomListPage = () => {
                 <div>
                   <ul style={{ width: '200px' }}>
                     <li><a className="dropdown-item" href="#">Notification</a></li>
-                    <li><a className="dropdown-item" href="#">Invitations</a></li>
+                    <li><a className="dropdown-item" href="#" onClick={handleInvitation}>Invitations</a></li>
                     <li><a className="dropdown-item" href="#" onClick={showProfile}>Profile</a></li>
                     <li><a className="dropdown-item" href="#" onClick={showEdit}>Edit Info</a></li>
                     <li><hr className="dropdown-divider" /></li>
@@ -204,10 +206,11 @@ const RoomListPage = () => {
           name={userName}
           bio_text={
             <>
-              Your Bio:
+              <div style={{fontWeight: 'bold'}}>Your Bio:</div>   
               <br />
               {userBio}
             </>}
+          showButton={false}
           // addFriend="+ Add Friend"
           style={{height: 'auto'}}
         />
@@ -228,7 +231,7 @@ const RoomListPage = () => {
           }}
           style={{height: '600px'}}
         >
-          <UploadCard />
+          <UploadCard setAvatar={setAvatar} setUserName={setUserName} setUserBio={setUserBio} />
         </Popover>
       <Contacts />
     </div>

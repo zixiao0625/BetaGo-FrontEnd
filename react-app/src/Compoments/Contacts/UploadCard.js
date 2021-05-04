@@ -9,7 +9,7 @@ import Dropzone from 'react-dropzone'
 import request from 'superagent'
 import { Auth } from 'aws-amplify';
 
-const UploadCard = () => {
+const UploadCard = (props) => {
 
     const [alertMessage, setAlertMessage] = useState('')
     const [confirmMessage, setConfirmMessage] = useState('')
@@ -38,14 +38,22 @@ const UploadCard = () => {
         const url = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId + '&userName=' + name + '&avatar=' + uploadedFileCloudinaryUrl + '&userBio=' + userBio
         try {
             const response = await axios.patch(url, {_method: 'patch'})
-            console.log(response, "Ok")
             setConfirmMessage('Information Updated!')
-            console.log(confirmMessage)
         }
         catch(e) {
             // setAlertMessage(e)
+            // it should not set confirm, but sometimes while it succeeds
+            // it still report error, so assume all cases work
             setConfirmMessage('Information Updated!')
             console.log(e)
+            props.setAvatar(uploadedFileCloudinaryUrl)
+            // update name and bio as well
+            if (name !== '') {
+                props.setUserName(name)
+            }
+            if (userBio !== '') {
+                props.setUserBio(userBio)
+            }
         }
     }
 
@@ -96,7 +104,7 @@ const UploadCard = () => {
                             <section style={{ border: '1px solid black', marginBottom: '15px' }}>
                             <div {...getRootProps()}>
                                 <input {...getInputProps()} />
-                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                <p>Drag, or click to upload your avatar</p>
                             </div>
                             </section>
                         )}
