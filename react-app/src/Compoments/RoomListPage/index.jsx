@@ -7,6 +7,7 @@ import Profile from '../Contacts/Profile.js'
 import Contacts from '../Contacts/Contacts.js'
 import { Popover } from '@material-ui/core'
 import UploadCard from "../Contacts/UploadCard";
+import demoPic from '../../Icons/avatar.jpg'
 require('bootstrap')
 
 
@@ -152,7 +153,9 @@ const RoomListPage = () => {
                 data-bs-toggle="dropdown" 
                 aria-expanded="true"
                 onClick={handleClick}>
-                <img src={avatar} alt="mdo" width={32} height={32} className="rounded-circle" />
+                {avatar === ''
+                  ? <img src={demoPic} alt="mdo" width={32} height={32} className="rounded-circle" />
+                  : <img src={avatar} alt="mdo" width={32} height={32} className="rounded-circle" /> }
               </a>
               <Popover
                 id='simple-popover'
@@ -202,7 +205,7 @@ const RoomListPage = () => {
         style={{height: '600px'}}
       >
         <Profile
-          profilePic={avatar}
+          profilePic={avatar !== '' ? avatar : demoPic}
           name={userName}
           bio_text={
             <>
