@@ -3,7 +3,7 @@ import "./Profile.css";
 import { Button } from "react-bootstrap";
 
 function Profile(props) {
-    const { profilePic, name, bio_text, addFriend} = props;
+    const { profilePic, name, bio_text, addFriend, showButton} = props;
   
     return (
       <div className="profile" style={{height: 'auto'}}>
@@ -14,9 +14,12 @@ function Profile(props) {
         <p className="biotext pingfangtc-regular-normal-black-8px">{bio_text}</p>
   
           <div className="overlap-group">
-              <div className="addFriend pingfangtc-medium-apple-10px">
-                <Button>{addFriend}</Button>
-              </div>
+              {showButton 
+                ? <div className="addFriend pingfangtc-medium-apple-10px">
+                    <Button>{addFriend}</Button>
+                  </div>
+                : null
+              } 
           </div>
   
       </div>
