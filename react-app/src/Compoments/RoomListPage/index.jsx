@@ -8,6 +8,9 @@ import Contacts from '../Contacts/Contacts.js'
 import { Popover } from '@material-ui/core'
 import UploadCard from "../Contacts/UploadCard";
 import demoPic from '../../Icons/avatar.jpg'
+import RoomCardPage from "./RoomCard";
+import plusButton from "../../Icons/plus.svg";
+
 require('bootstrap')
 
 
@@ -54,12 +57,16 @@ const RoomListPage = () => {
     console.log(origin)
     window.location = toString(origin) + "/#/invitation"
   }
-
+  const handleCreateRoom = () => {
+    const origin = window.origin
+    console.log(origin)
+    window.location = toString(origin) + "/#/room"
+  }
   // get current user Info
   const getInfo = async() => {
     const sessionInfo = Auth.currentSession();
-    const session = await sessionInfo
-    const clientId = session.idToken.payload.sub
+    const session = await sessionInfo;
+    const clientId = session.idToken.payload.sub;
     // get user name
     const api = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId
     const response = await fetch(api, {
@@ -236,7 +243,16 @@ const RoomListPage = () => {
         >
           <UploadCard setAvatar={setAvatar} setUserName={setUserName} setUserBio={setUserBio} />
         </Popover>
-      <Contacts />
+      <div className="middlePage">
+        <div className="RoomList">
+          <RoomCardPage/>
+          <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
+        </div>
+        <div className="ContactList">
+          <Contacts/>
+        </div>
+      </div>
+      
     </div>
   )
 }

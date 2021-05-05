@@ -30,3 +30,31 @@
 .dropdown-toggle {
   outline: 0;
 }
+
+.middlePage {
+  padding: 20px;
+  height: max-content;
+  width: 100%;
+}
+
+.RoomList{ 
+  position:absolute; 
+  top:20%; 
+  left:0;  
+  width:800px;
+  height:100%; 
+  padding:20px;
+}
+.ContactList{ 
+  position:absolute;
+  right:10px;
+  top:20%; 
+  height:100%; 
+  padding:20px;
+} 
+.plusButton{
+  height:60px;
+  width:60px;
+  float: right;
+  cursor: pointer;
+}
