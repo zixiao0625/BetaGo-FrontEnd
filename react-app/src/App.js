@@ -11,7 +11,8 @@ import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import { withAuthenticator, AmplifySignOut} from '@aws-amplify/ui-react';
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
-import FriendTest from './Compoments/FriendRequest/FriendTest'
+import FriendTest from './Compoments/FriendRequest/FriendTest';
+import roomCard from './Compoments/RoomListPage/RoomCard';
 Amplify.configure(awsconfig);
 
 const AppContext = React.createContext();
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/Contacts" component={Contacts} />
         <Route exact path="/ProfileCard" component={ProfileCard} />
         <Route exact path="/upload" component={UploadCard} />
+        <Route exact path="/t" component={roomCard} />
 
         {
         // for test only

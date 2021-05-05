@@ -79,12 +79,12 @@ class Contacts extends React.Component {
   render = () => {
     let friendId = this.state.friendId
     return friendId.length === 0 
-            ? <div>
-                <div className="boxContainer">
-                  <div className="contacts pingfangtc-medium-black-20px">Contacts
-                  </div>
+            ?
+              <div className="boxContainer">
+                <div className="contacts pingfangtc-medium-black-20px">Contacts
                 </div>
-              </div> 
+              </div>
+              
             : (
               <div className="boxContainer">
                 <div className="contacts pingfangtc-medium-black-20px">Contacts
