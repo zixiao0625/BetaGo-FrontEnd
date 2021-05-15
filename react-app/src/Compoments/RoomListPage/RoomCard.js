@@ -1,4 +1,5 @@
 // import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "./RoomCard.css";
 
 import { useEffect, useState } from "react";
@@ -8,7 +9,7 @@ const partyIcon = "https://anima-uploads.s3.amazonaws.com/projects/60363237048e5
 const userNumIcon = "https://anima-uploads.s3.amazonaws.com/projects/60363237048e519c5d8f0bb8/releases/603d1492f59279099b05ed88/img/icons8-user-30-1@2x.png";
 const RoomCardPage = (props)=>{
   
-  return (<RoomCard/>);
+  return (<RoomCard roomid={props.roomid}/>);
 }
 
 const RoomCard = (props)=>{
@@ -16,20 +17,25 @@ const RoomCard = (props)=>{
   const[roomName,setRoomName] = useState("");
   const[users,setUsers] = useState([]);
   const[roomInfo,setRoomInfo] = useState("");
+  const history = useHistory();
   const handleRoom = () => {
-    const origin = window.origin
-    console.log(origin)
-    window.location = toString(origin) + "/#/room/test"
+    // const origin = window.origin
+    // console.log(origin)
+    // window.location = toString(origin) + "/#/room/test7"
+    let path = `/room/`+props.roomid;
+    history.push(path);
   }
   useEffect(()=>{
-    fetch(rootApi+"room?roomID=test")
+    fetch(rootApi+"room?roomID="+props.roomid)
       .then(response => response.json())
       .then((data) => {
         setRoomName(data.roomName);
         setRoomInfo(data.roomInfo);
-        setUids(data.users);
+        // console.log(data);
+        setUids(data.members);
+        // console.log(data.members);
       });
-  },[]);
+  },[props.roomid]);
 
   useEffect(()=>{
     if(uids.length >= 0){
@@ -45,7 +51,7 @@ const RoomCard = (props)=>{
 
     }
   },[uids]);
-
+  
   return (
       <div className="roomCard" style={{cursor: "pointer"}} onClick={handleRoom}>
         <div className="top">

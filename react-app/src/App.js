@@ -18,6 +18,7 @@ Amplify.configure(awsconfig);
 const AppContext = React.createContext();
 
 function App() {
+
   return (
     <HashRouter>
       <Switch>

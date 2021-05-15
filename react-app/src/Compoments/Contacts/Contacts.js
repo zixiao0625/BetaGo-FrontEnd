@@ -102,7 +102,7 @@ class Contacts extends React.Component {
                     //   </div>
                     // )
                     return (
-                      <ContactItem client_Id={friend_Id} />
+                      <ContactItem client_Id={friend_Id} key={friend_Id}/>
                     )
                   })
                 } 
