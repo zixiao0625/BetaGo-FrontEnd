@@ -10,7 +10,8 @@ import UploadCard from "../Contacts/UploadCard";
 import demoPic from '../../Icons/avatar.jpg'
 import RoomCardPage from "./RoomCard";
 import plusButton from "../../Icons/plus.svg";
-
+import { useHistory } from "react-router-dom";
+import { listenerCount } from "superagent";
 require('bootstrap')
 
 
@@ -23,11 +24,13 @@ const RoomListPage = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElEdit, setAnchorElEdit] = useState(null)
+  const [friendList,setFriendList] = useState([]);
+  const [rooms,setRooms] = useState([]);
   const open = Boolean(anchorEl)
   const openNav = Boolean(anchorElNav)
   const openEdit = Boolean(anchorElEdit)
   const id = open ? 'simple-popover' : undefined;
-
+  const history = useHistory();
   const handleClick = (event) => {
     setAnchorElNav(event.currentTarget);
   }
@@ -53,14 +56,11 @@ const RoomListPage = () => {
   }
 
   const handleInvitation = () => {
-    const origin = window.origin
-    console.log(origin)
-    window.location = toString(origin) + "/#/invitation"
+    let path = `/invitation"`;
+    history.push(path);
   }
   const handleCreateRoom = () => {
-    const origin = window.origin
-    console.log(origin)
-    window.location = toString(origin) + "/#/room"
+    history.push('/room');
   }
   // get current user Info
   const getInfo = async() => {
@@ -68,16 +68,17 @@ const RoomListPage = () => {
     const session = await sessionInfo;
     const clientId = session.idToken.payload.sub;
     // get user name
-    const api = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId
+    const api = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId;
     const response = await fetch(api, {
-    method: 'GET'})
-    const data = await response.json()
+    method: 'GET'});
+    const data = await response.json();
     // name
-    setUserName(data['userName']['S'])
+    setUserName(data['userName']['S']);
     // get avatar
-    setAvatar(data['avatar']['S'])
+    setAvatar(data['avatar']['S']);
     // get online status
-    setUserBio(data['userBio']['S'])
+    setUserBio(data['userBio']['S']);
+    setFriendList(data['friends']["L"]);
   }
 
   const signOut = () => {
@@ -97,9 +98,9 @@ const RoomListPage = () => {
   // Get Amplify ID
   const sessionInfo = Auth.currentSession();
   sessionInfo.then(response => {
-      console.log(response.idToken.payload.sub)
+      // console.log(response.idToken.payload.sub)
   })
-  console.log("INFO");
+  // console.log("INFO");
 
   // websocket connection
   let ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
@@ -113,11 +114,11 @@ const RoomListPage = () => {
 
       ws.onopen = () => {
           // on connecting, do nothing but log it to the console
-          console.log('connected')
+          // console.log('connected')
       }
 
       ws.onclose = () => {
-          console.log('disconnected')
+          // console.log('disconnected')
           window.alert("Your session is time out!");
       }
   }
@@ -129,13 +130,33 @@ const RoomListPage = () => {
 
   useEffect(() => {
     getInfo()
-  })
+  },[])
+
+  useEffect(async()=>{
+    if(friendList.length>=0){
+      // console.log("aaaaaaa");
+      // console.log(friendList);
+      friendList.map(async (f)=>{
+        // console.log("bbbbbbbbb");
+        // console.log(f);
+        const api = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + f["S"]
+        const response = await fetch(api, {
+          method: 'GET'});
+        const data = await response.json();
+        // console.log(data);
+        if(data["Room"]["M"]["roomId"]["S"] !== ""){
+          setRooms(rooms=>[...rooms,data["Room"]["M"]["roomId"]["S"]]);
+        }
+        
+      })
+    }
+  },[friendList])
 
   // update user offline if user leave the page
   window.addEventListener('beforeunload', function (e) {
       e.preventDefault();
       sessionInfo.then(response => {
-          console.log(response.idToken.payload.sub)
+          // console.log(response.idToken.payload.sub)
           ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
       })
   })
@@ -247,7 +268,10 @@ const RoomListPage = () => {
         </Popover>
       <div className="middlePage">
         <div className="RoomList" style={{marginLeft: '10%'}}>
-          <RoomCardPage/>
+          {rooms.map((rid)=>{
+            return <RoomCardPage roomid={rid} key={rid}/>
+          })}
+          
           <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
         </div>
         <div className="ContactList">
