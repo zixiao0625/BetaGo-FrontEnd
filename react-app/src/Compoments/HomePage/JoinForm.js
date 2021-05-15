@@ -5,12 +5,14 @@ import diceIcon from '../../Icons/dice_icon.svg';
 import React, {useState, useEffect, useRef} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Auth } from 'aws-amplify';
+import { useHistory } from "react-router-dom";
 const rootApi = "https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/room";
 const JoinForm = (props)=> {
 
     const [room,setRoom] = useState("");
     const [info,setInfo] = useState("");
     const [roomId, setRoomID] = useState("");
+    const history=useHistory();
     //   handleChange(event) {
     //     this.setState({ 
     //       value: event.target.value
@@ -61,7 +63,7 @@ const JoinForm = (props)=> {
         .then(data => {
             if (data === "Update!"){
                 console.log("succeed!");
-                // props.p.history.push(`/room/${id}`);
+                history.push('/room/'+id);
             }
             
         })
