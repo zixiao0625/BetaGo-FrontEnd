@@ -23,7 +23,7 @@
 .picture {
   height: 50px;
   width: 50px;
-  padding-right: 15px;
+  padding: 5px;
   display:inline-block;
 }
 
@@ -40,8 +40,8 @@
   text-align: center;
   text-decoration: none;
   display: inline;
-  font-size: 4px;
-  margin: 10px 10px;
+  font-size: 10px;
+  margin: 5px 5px;
   cursor: pointer;
   border-radius: 4px;
   position: absolute;
@@ -53,18 +53,18 @@
   font-family: "PingFang TC-Medium", Helvetica, Arial, serif;
   font-size: 20px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 550;
 }
 
 .boxContainer {
   position: relative;
   right: 50%;
   height: 500px;
-  width: 208px;
+  width: 220px;
 
-  border: 2px solid #73AD21;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 25px;
-  padding-left: 3px;
+  padding: 10px;
   overflow: auto;
 }
 
@@ -74,11 +74,20 @@
 
 .each-person {
   letter-spacing: 0px;
-  color: black;
   font-family: "PingFang TC-Medium", Helvetica;
-  font-size: 10px;
   font-style: normal;
+  font-size:10px;
   font-weight: 500;
   display: inline-block;
   width: 200px;
+  margin: 3px;
+}
+
+.person-name {
+  font-size: 15px;
+  color:black
+}
+
+.person-status {
+  color: grey;
 }

@@ -51,9 +51,10 @@ const ContactItem = (client_ID, ...props) => {
           {avatar === ''
             ? <img className="picture" src = {demoPic} alt="contact_list" style={{position: 'inline'}}/>
             : <img className="picture" src = {avatar} alt="contact_list" style={{position: 'inline'}}/> }
-          {userName}
-          <span style={{position: 'relative', top: '15px'}}>{status}</span>
-          <button className="button">Join</button>
+            <span className="person-name"> {userName} </span>
+            <span className="person-status" style={{position: 'relative', top: '15px'}}>{status}</span>
+
+          <button className="button">+ Join</button>
         </div>
         <Popover
           id={id}
