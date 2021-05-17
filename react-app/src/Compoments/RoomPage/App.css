@@ -17,12 +17,34 @@
     position: absolute; 
     bottom: 0px; 
     background:white;
-    height: 10vh;
+    height: 8vh;
     width: 100%;
+}
+
+.toolbar img {
+    margin: auto;
+    width: 70%;
 }
 
 .btnSignOut {
     position: absolute;
     top: 80%;
     left: 80%;
+}
+
+.top {
+    position: absolute; 
+    top: 0px; 
+    background:white;
+    height: 8vh;
+    width: 100%;
+    display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.top span{
+    font-size: 2em;
+    font-weight: bolder;
+    color:#54B944;
+    padding-left: 2em;
 }

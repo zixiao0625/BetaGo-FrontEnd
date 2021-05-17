@@ -6,6 +6,7 @@
   box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
 }
 
+
 .form-control-dark {
   color: #fff;
   background-color: var(--bs-dark);
@@ -32,29 +33,111 @@
 }
 
 .middlePage {
-  padding: 20px;
+  padding: 0px;
   height: max-content;
   width: 100%;
+  background-color: #EAEDF2;
 }
 
 .RoomList{ 
   position:absolute; 
-  top:20%; 
+  /*top:20%; */
   left:0;  
-  width:800px;
+  width:55%;
   height:100%; 
   padding:20px;
 }
 .ContactList{ 
   position:absolute;
-  right:10px;
-  top:20%; 
+  right:6em;
+  /*top:20%;*/ 
   height:100%; 
   padding:20px;
+
 } 
 .plusButton{
+  position: fixed;
+  bottom: 100px;
+  right: 600px;
   height:60px;
   width:60px;
   float: right;
   cursor: pointer;
+}
+.plusButton:hover{
+  filter: drop-shadow(0px 4px 4px rgb(0, 0, 0,.25));
+}
+.headerdivider {
+  border-left: 0.5px solid rgb(97, 97, 97, 0.2);
+  background: gb(97, 97, 97, 0.2);
+  width: 0.5px;
+  height: 620px;
+  position: absolute;
+  right: 510px;
+  top: 160px;
+}
+
+.empty-parent {
+  margin: auto;
+  width: 70%;
+  padding: 50px;
+  
+}
+.empty-title{
+  font-size: 24px;
+  font-weight: bolder;
+}
+.empty-child {
+   padding:8px;
+   text-align:center;
+}
+
+.col1{
+  padding-top: 20px;
+  font-weight: 700;
+  font-size: 2em;
+  padding-bottom: 15px;
+}
+
+@media (min-width: 1200px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1580px !important;
+    }
+}
+
+.MuiPaper-rounded {
+  border-radius: 8px !important;
+}
+
+.MuiPaper-elevation8 {
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 5%), 0px 8px 10px 1px rgb(0 0 0 / 2%), 0px 3px 14px 2px rgb(0 0 0 / 6%) !important;
+}
+
+.btn-primary {
+  color: #54B944 !important;
+  background-color: #D1EABD !important;
+  border-color: #D1EABD !important;
+}
+
+.btn-primary:hover {
+  color: #54B944 !important;
+  background-color:rgb(84, 185, 68, 0.5) !important;
+  border-color: rgb(84, 185, 68, 0.5) !important;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .6rem !important;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

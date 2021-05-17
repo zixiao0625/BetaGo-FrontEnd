@@ -20,7 +20,7 @@ const ContactItem = (client_ID, ...props) => {
       method: 'GET'})
       const data = await response.json()
       setUserName(data['userName']['S'])
-      data['onlineStatus']['BOOL'] ? setStatus("online") : setStatus("offline")
+      data['onlineStatus']['BOOL'] ? setStatus("Online") : setStatus("Offline")
       // get avatar
       setAvatar(data['avatar']['S'])
       // get online status
@@ -46,16 +46,19 @@ const ContactItem = (client_ID, ...props) => {
 
 
   return (
-      <div className="" key={userName}>
-        <div className="each-person" onClick={handleClick}>
+    <ul className="people">
+      <li className="w3-bar" onClick={handleClick} key={userName}>
+    
+          <span className="join-span"><button className="button">+ Join</button></span>
           {avatar === ''
-            ? <img className="picture" src = {demoPic} alt="contact_list" style={{position: 'inline'}}/>
-            : <img className="picture" src = {avatar} alt="contact_list" style={{position: 'inline'}}/> }
-            <span className="person-name"> {userName} </span>
-            <span className="person-status" style={{position: 'relative', top: '15px'}}>{status}</span>
-
-          <button className="button">+ Join</button>
-        </div>
+            ? <img className="picture w3-bar-item w3-circle w3-hide-small" src = {demoPic} alt="contact_list" style={{width: '50px'}}/>
+            : <img className="picture w3-bar-item w3-circle w3-hide-small" src = {avatar} alt="contact_list" style={{width: '50px'}}/> }
+            
+            <div className="w3-bar-item">
+              <span className="list-item username"> {userName} </span>
+              <span className="list-item status">{status}</span>
+            </div>
+            </li>
         <Popover
           id={id}
           open={open}
@@ -86,7 +89,8 @@ const ContactItem = (client_ID, ...props) => {
             style={{height: 'auto'}}
           />
         </Popover>
-      </div>
+        
+      </ul>
     )
 }
 

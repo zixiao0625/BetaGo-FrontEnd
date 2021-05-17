@@ -60,7 +60,7 @@ const RoomCard = (props)=>{
         </div>
 
         <div className="middle">
-            <div className="container">
+            <div>
                 {users.map((user,idx)=>{
                     return (<img className="avatar" key={idx} src={user.avatar.S}/>);
                 })}

@@ -39,6 +39,8 @@
   .profile-pic {
     height: 50px;
     width: 50px;
+    border-radius: 10%;
+    margin-right: 10px;
   }
   .biotext {
     align-self: flex-start;

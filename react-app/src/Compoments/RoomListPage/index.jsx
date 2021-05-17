@@ -10,6 +10,8 @@ import UploadCard from "../Contacts/UploadCard";
 import demoPic from '../../Icons/avatar.jpg'
 import RoomCardPage from "./RoomCard";
 import plusButton from "../../Icons/plus.svg";
+import logo from "../../Icons/toplogo.svg";
+import empty from "../../Icons/empty.svg";
 import { useHistory } from "react-router-dom";
 import { listenerCount } from "superagent";
 import HomePage from '../HomePage/HomePage.js'
@@ -193,12 +195,12 @@ const RoomListPage = () => {
 
   return(
     <div>
-      <header className="p-3 mb-3 border-bottom">
+      <header className="p-3 border-bottom" style={{ boxShadow: '0px 1px 1px #00000024'}}>
         <div className="container">
           {/* <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> */}
             <Box display='flex' flexDirection='row' justifyContent='space-between' style={{ width: '100%'}} >
             <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-              <svg className="bi me-2" width={40} height={32}><use xlinkHref="#bootstrap" /></svg>
+              <img src={logo} style={{paddingRight:'10px'}}></img>
             </a>
             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
@@ -329,7 +331,9 @@ const RoomListPage = () => {
           }
           <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
         </div>
-        <div className="ContactList">
+        <div class="headerdivider"></div>
+        <div className="ContactList" style={{marginRight: '3%'}}>
+          <div className="col1">People</div>
           <Contacts/>
           <div style={{ marginTop: '10px' }}>
             <Button variant="outlined" color="primary" onClick={handleRefresh}>

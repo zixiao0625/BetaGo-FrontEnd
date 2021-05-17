@@ -20,9 +20,9 @@ const Invitation = (props)=>{
             <div className="device_access">
                 <DeviceSetUp></DeviceSetUp>
             </div>
-            <div className="btnSignOut">
+            {/* <div className="btnSignOut">
                 <SignOut />
-            </div>
+            </div> */}
         </div>
     );
 }
