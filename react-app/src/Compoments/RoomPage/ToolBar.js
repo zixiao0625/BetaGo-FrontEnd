@@ -65,6 +65,8 @@ const ToolBar = (props)=>{
 
     const handleBack = () => {
         history.push('/')
+        props.onLeave();
+        window.location.reload() ;
     }
 
     let camIcon = camOn? camIconOn:camIconOff;

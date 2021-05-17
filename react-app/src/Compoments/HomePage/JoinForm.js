@@ -40,9 +40,10 @@ const JoinForm = (props)=> {
     }
     
     const handleSubmit = async(event)=> {
-        const sessionInfo = Auth.currentSession();
-        const session = await sessionInfo
-        const clientId = session.idToken.payload.sub
+        // const sessionInfo = Auth.currentSession();
+        // const session = await sessionInfo
+        // const clientId = session.idToken.payload.sub
+        const clientId = props.cid;
         // 可删event
         let id = uuidv4();
         const data = {};
@@ -65,6 +66,7 @@ const JoinForm = (props)=> {
                 console.log("succeed!");
                 history.push('/room/'+id);
             }
+            console.log("BBBBBBBBBB");
             
         })
         .catch((error) => {

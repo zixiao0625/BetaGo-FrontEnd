@@ -40,13 +40,13 @@ const HomePage = (props)=>{
     //     initWebsocket();
     // });
 
-    window.addEventListener('beforeunload', function (e) {
-        e.preventDefault();
-        sessionInfo.then(response => {
-            console.log(response.idToken.payload.sub)
-            ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
-        })
-    })
+    // window.addEventListener('beforeunload', function (e) {
+    //     e.preventDefault();
+    //     sessionInfo.then(response => {
+    //         console.log(response.idToken.payload.sub)
+    //         ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
+    //     })
+    // })
 
     return (
         <div>
@@ -54,12 +54,12 @@ const HomePage = (props)=>{
                 <header className="App_header"></header>
                 <div className="about_container">
                     <h1 id="title">Host a party 🔥</h1>
-                    <JoinForm p={props}/>
+                    <JoinForm p={props} cid={props.cid}/>
                 </div>   
             </div>
-            <div className="device_access">
+            {/* <div className="device_access">
                 <DeviceSetUp/>
-            </div>
+            </div> */}
             
             {/* <div className="btnSignOut">
                 <SignOut 
