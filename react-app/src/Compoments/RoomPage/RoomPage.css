@@ -15,6 +15,12 @@
 
 }
 
+#VideoGalley{
+    position: absolute; 
+    bottom: 0px;
+    top: 70px; 
+    width: 100%;
+}
 
 .tooltip {
     position: relative;
