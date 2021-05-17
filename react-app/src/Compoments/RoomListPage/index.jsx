@@ -179,7 +179,7 @@ const RoomListPage = () => {
         const data = await response.json();
         // console.log(data);
         if(data["Room"]["M"]["roomId"]["S"] !== ""){
-          setRooms(rooms=>[...rooms,data["Room"]["M"]["roomId"]["S"]]);
+          setRooms(rooms=>Array.from(new Set([...rooms,data["Room"]["M"]["roomId"]["S"]])));
         }
         
       })
