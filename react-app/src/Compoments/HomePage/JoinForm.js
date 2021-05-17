@@ -85,15 +85,15 @@ const JoinForm = (props)=> {
     const onsubmit =  room !== "" && info !== "" ? handleSubmit : handleSubmitNothing;
 
     return (
-        <Form>
+        <Form style={{width:"300px"}}>
             <Form.Row className="align-items-center">
-                <Col xs="auto">
+                <Col>
                 {" "}
                 <Form.Group controlId="RoomName">
-                <Form.Label>Give it a name</Form.Label>
-                <i className="dice_icon">
+                <Form.Label>Room name</Form.Label>
+                {/* <i className="dice_icon">
                     <img src={diceIcon}/>
-                </i>
+                </i> */}
                 <Form.Control
                     type="text"
                     placeholder="eg: Odegaarrd Night.."
@@ -102,7 +102,7 @@ const JoinForm = (props)=> {
                 />
                 </Form.Group>
                 <Form.Group controlId="UserName">
-                <Form.Label>Make some description</Form.Label>
+                <Form.Label>Room topic</Form.Label>
                 <Form.Control
                     type="text"
                     placeholder="Let's make a study group"
@@ -117,8 +117,9 @@ const JoinForm = (props)=> {
                     variant="primary"
                     type="submit"
                     onClick={onsubmit}
+                    style={{marginTop:"20px"}}
                 >
-                    Let's go!
+                    🎉  Let's go!
                 </Button>  
                 </div>
                 </Col>

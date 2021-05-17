@@ -53,7 +53,7 @@ const HomePage = (props)=>{
             <div className="page">
                 <header className="App_header"></header>
                 <div className="about_container">
-                    <h1 id="title">Host a party 🔥</h1>
+                    <h2 id="title" style={{marginBottom:"30px", paddingTop:"30px"}}>Start a room</h2>
                     <JoinForm p={props} cid={props.cid}/>
                 </div>   
             </div>

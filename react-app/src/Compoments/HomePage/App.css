@@ -1,9 +1,13 @@
 .page {
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 45%;
   text-align: left;
   transform: translate(-50%, -50%)
+}
+
+#join_room {
+  
 }
 
 .dice_icon {

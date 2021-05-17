@@ -1,7 +1,6 @@
 .page {
     position: absolute;
     left: 50%;
-    top: 36%;
     text-align: left;
     transform: translate(-50%, -50%)
   }

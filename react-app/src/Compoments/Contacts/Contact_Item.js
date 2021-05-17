@@ -79,13 +79,13 @@ const ContactItem = (client_ID, ...props) => {
             name={userName}
             bio_text={
               <>
-                <div style={{fontWeight: 'bold'}}>Your Bio:</div>
-                <br />
-                {userBio}
+                <div style={{fontSize:"12px"}}><br />
+                {userBio !== '' ? userBio : 'I don\'t have a bio.' }</div>
+                
               </>
             }
             addFriend="+ Add Friend"
-            showButton={true}
+            showButton={false}
             style={{height: 'auto'}}
           />
         </Popover>

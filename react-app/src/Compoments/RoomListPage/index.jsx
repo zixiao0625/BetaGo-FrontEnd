@@ -12,6 +12,7 @@ import RoomCardPage from "./RoomCard";
 import plusButton from "../../Icons/plus.svg";
 import logo from "../../Icons/toplogo.svg";
 import empty from "../../Icons/empty.svg";
+import refreshIcon from "../../Icons/refresh.svg";
 import { useHistory } from "react-router-dom";
 import { listenerCount } from "superagent";
 import HomePage from '../HomePage/HomePage.js'
@@ -207,7 +208,14 @@ const RoomListPage = () => {
             </a>
             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li>
-            </ul>     
+            </ul>
+            <div className="refresh">
+            <Button variant="outlined" color="#54B944" onClick={handleRefresh}>
+            <img src={refreshIcon} alt="refresh" style={{width:"20px"}}></img>
+            </Button>
+            
+            </div>
+             
             <div className="dropdown text-end" style={{ marginTop: '7px' }}>
               <a 
                 href="#" 
@@ -269,13 +277,14 @@ const RoomListPage = () => {
         style={{height: '600px'}}
       >
         <Profile
+        
           profilePic={avatar !== '' ? avatar : demoPic}
           name={userName}
           bio_text={
             <>
-              <div style={{fontWeight: 'bold'}}>Your Bio:</div>   
-              <br />
-              {userBio}
+              <div style={{fontSize:"12px"}}><br />
+              {userBio}</div>   
+              
             </>}
           showButton={false}
           // addFriend="+ Add Friend"
@@ -316,22 +325,22 @@ const RoomListPage = () => {
           justifyContent: 'center',
           alignItems: 'center', width: '70%vw'}}
         > 
-          <div style={{ width: '600px', height: '800px'}}>
+          <div style={{ width: '400px', height: '400px'}}>
             <HomePage cid={cid}/>
           </div>
         </Popover>
       <div className="middlePage">
-        <div className="RoomList" style={{marginLeft: '5%', width: 'calc(70%)'}}>
+        <div className="RoomList" style={{marginLeft: '10%'}}>
+        <div className="col1">Rooms</div>
           { rooms.length !== 0 
             ? rooms.map((rid)=>{
                 return <RoomCardPage roomid={rid} key={rid}/>
               })
-            : <div style={{ textAlign: 'center' }}>
-                {/* <div style={{ height: "200px" }}></div> */}
-                <img alt='no_room' src={empty} style={{ width: 'calc(45%)' }}/>
-                <div style={{ fontWeight: '600', fontSize: '60px' }}>There is no room yet. </div>
-                <div style={{ fontWeight: '400', fontSize: '30px' }}>Create a room to get things going.</div>
-              </div>
+            : <div className="empty-parent">
+            <div className="empty-child"><img src={empty} style={{width: '300px'}}></img></div>
+            <div className="empty-child"><span className="empty-title">No rooms, yet.</span></div>
+            <div className="empty-child"><span>There is no room you can join, yet! Start a room and invite your friends to join!</span></div>
+          </div>
           }
           <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
         </div>
@@ -339,11 +348,7 @@ const RoomListPage = () => {
         <div className="ContactList" style={{marginRight: '3%'}}>
           <div className="col1">People</div>
           <Contacts/>
-          <div style={{ marginTop: '10px' }}>
-            <Button variant="outlined" color="primary" onClick={handleRefresh}>
-              Refresh
-            </Button>
-        </div>
+
         </div>
       </div>
     </div>

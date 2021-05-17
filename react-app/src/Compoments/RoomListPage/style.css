@@ -31,7 +31,10 @@
 .dropdown-toggle {
   outline: 0;
 }
-
+.refresh{
+  padding:5px;
+  padding-right:2%;
+}
 .middlePage {
   padding: 0px;
   height: max-content;
@@ -41,16 +44,16 @@
 
 .RoomList{ 
   position:absolute; 
-  /*top:20%; */
   left:0;  
   width:55%;
   height:100%; 
   padding:20px;
+  top: 10% !important;
 }
 .ContactList{ 
   position:absolute;
   right:6em;
-  /*top:20%;*/ 
+  top: 10% !important;
   height:100%; 
   padding:20px;
 

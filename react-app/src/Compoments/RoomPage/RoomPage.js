@@ -339,16 +339,19 @@ export const Room =(props)=>{
 
     return(
         <div>
-          <header className="p-3 mb-3 border-bottom">
+          <header className="p-3 border-bottom">
             <div className="container" style={{ zIndex: '11' }}>
+              
               {/* <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> */}
                 <Box display='flex' flexDirection='row' justifyContent='space-between' style={{ width: '100%'}} >
                 <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                   <svg className="bi me-2" width={40} height={32}><use xlinkHref="#bootstrap" /></svg>
                 </a>
                 <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <div className="nav-top"><span className="top-title">Mingle.</span></div>
                   {/* 留个位置room: 可以把roomname抓下来 */}
-                  <li><a className="nav-link px-2 link-secondary">Room:</a></li>
+                  <li style={{display: "inline-flex",
+  alignItems: "center"}}><a className="nav-link px-2 link-secondary">Room:</a></li>
                 </ul>     
                 <div className="dropdown text-end" style={{ marginTop: '7px' }}>
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -396,7 +399,7 @@ export const Room =(props)=>{
             </div>
           </header>
           <div>
-          <div id="VideoGalley" width="100%" height="80%" >
+          <div id="VideoGalley" width="100%" height="100%" >
             <div id="self" className="Video"></div>
             {users.map(user=>{
               return <UserCard key={user} uid={user}/>
@@ -405,12 +408,12 @@ export const Room =(props)=>{
           <div>
             <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick} onLeave={leaveUp}/>
           </div>
-          <div className="btnSignOut">
+          {/* <div className="btnSignOut">
               <SignOut 
                 websocket = {ws}
                 session = {sessionInfo}
               />  
-          </div>
+          </div> */}
           <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn} roomID={roomID} cid={cid} />
           </div>
         </div>)

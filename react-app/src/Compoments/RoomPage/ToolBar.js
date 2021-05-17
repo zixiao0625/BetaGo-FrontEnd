@@ -72,14 +72,14 @@ const ToolBar = (props)=>{
     let camIcon = camOn? camIconOn:camIconOff;
     let micIcon = micOn? micIconOn:micIconMute;
     return (
-    <div className="toolbar" style={{ backgroundColor: '#eaedf2' }}>
+    <div className="toolbar" style={{ backgroundColor: '#fff' }}>
         <div className="microphone" onClick = {clickMicIcon}>
             <img src={micIcon} alt="microphone icon"/>
         </div> 
         <div className="camera" onClick = {clickCamIcon}>
             <img src={camIcon} alt="camera icon"/>
         </div>
-        <div className="music" onClick = {clickMusicIcon}>
+        {/* <div className="music" onClick = {clickMusicIcon}>
             {showMusic? <img src={music} alt="music icon"/>: null}
         </div> 
         <div className="box" onClick = {clickBoxIcon}>
@@ -93,10 +93,10 @@ const ToolBar = (props)=>{
         </div>
         <div className="right" onClick = {clickRightIcon}>
             {showRight? <img src={right} alt="right arrow icon"/>: null}
-        </div>
-        <div style={{ marginLeft: 'calc(85%)' }}>
-            <Button variant="outlined" color="primary" onClick={handleBack}>
-                Back to Landing page
+        </div> */}
+        <div className="camera" style={{ marginLeft: '75%', display:"inline-block"}}>
+            <Button variant="outlined" color="secondary" onClick={handleBack}>
+                Back to Room Page
             </Button>
         </div>
     </div>
