@@ -5,8 +5,9 @@ import SignOut from '../Login/SignOut.js'
 import VideoGalley from "./VideoGalley.js";
 import ToolBar from "./ToolBar.js"
 import "./RoomPage.css";
-
+import { Auth } from 'aws-amplify'
 const appId= "a3624becc6624c74959bd7f7975e89ed";
+const rootApi = "https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/room";
 
 const UserCard = (props)=>{
   return(
@@ -24,30 +25,54 @@ export const RoomController = (props)=>{
     const localAudioTrack = useRef();
     const localVideoTrack = useRef();
     useEffect(async ()=>{
-        client.current = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-        localAudioTrack.current = await AgoraRTC.createMicrophoneAudioTrack();
-        localVideoTrack.current = await AgoraRTC.createCameraVideoTrack();
-        client.current.on("user-joined",onUserJoin);
-        client.current.on("user-left",onUserLeft);
-        client.current.on("user-published",onUserPublish);
-        client.current.on("user-unpublished",onUnpublish);
-        
-        
-        // const localContainer = document.createElement("div");
-        // localContainer.id = "self";
-        // localContainer.style.width = "640px";
-        // localContainer.style.height = "480px";
-        // document.getElementById("Local-Stream").append(localContainer);
-        //localVideoTrack.play("self");
-        const uId = await client.current.join(appId, "test", null);
-        //await client.current.publish([localAudioTrack, localVideoTrack]);
-        //setUids([...uids,uId]);
-        setClientPrep(true);
+   
+        if(props.cid !== ""){
+          window.addEventListener('unload', leaveUp, false);
+          client.current = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+          localAudioTrack.current = await AgoraRTC.createMicrophoneAudioTrack();
+          localVideoTrack.current = await AgoraRTC.createCameraVideoTrack();
+          client.current.on("user-joined",onUserJoin);
+          client.current.on("user-left",onUserLeft);
+          client.current.on("user-published",onUserPublish);
+          client.current.on("user-unpublished",onUnpublish);
+          console.log("AAAAAAAAAAAAAAAAA");
+          console.log(props.cid);
+          
+          // const localContainer = document.createElement("div");
+          // localContainer.id = "self";
+          // localContainer.style.width = "640px";
+          // localContainer.style.height = "480px";
+          // document.getElementById("Local-Stream").append(localContainer);
+          //localVideoTrack.play("self");
+          await client.current.join(appId, props.roomID, null);
+          fetch(rootApi+"?roomID="+props.roomID+"&uid="+props.cid+"&action=join", {
+            method: 'PATCH', // or 'PUT'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data === "Update!"){
+                    console.log("succeed!");
+                    // props.p.history.push(`/room/${id}`);
+                }
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+          
+          meet();
+          //await client.current.publish([localAudioTrack, localVideoTrack]);
+          //setUids([...uids,uId]);
+          setClientPrep(true);
+        }
 
-        return ()=>{
+        return async()=>{
+          leaveUpdate();
           leaveCall();
         };
-    },[]);
+    },[props.cid]);
+
+
 
     useEffect(async()=>{
       if(clientPrep){
@@ -64,10 +89,22 @@ export const RoomController = (props)=>{
           localVideoTrack.current.stop();
         }
       }
-    },[props.micOn,props.camOn])
+    },[props.micOn,props.camOn,clientPrep])
 
-    
 
+
+    const meet = async()=>{
+      fetch(rootApi+"?roomID="+props.roomID)
+      .then(response => response.json())
+      .then((data) => {
+        let users = data.members;
+        users.map(async (uid)=>{
+          let url = "https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user/add-friend?self=" + props.cid + "&friend="+uid;
+          await fetch(url, {
+            method: 'PATCH'});
+        })
+      });
+    }
     const onUserJoin = async (user)=>{
       // const playerContainer = document.createElement("div");
       // //给这个 DIV 节点指定一个 ID，这里指定的是远端用户的 UID。
@@ -152,8 +189,32 @@ export const RoomController = (props)=>{
         //   remoteAudioTrack.stop();
         // }
     }
+    const leaveUp = ()=>{
+      navigator.sendBeacon(rootApi+ "/action"+"?roomID="+props.roomID+"&uid="+props.cid+"&action=leave");
+    }
+    const leaveUpdate = async()=>{
+      const sessionInfo = Auth.currentSession();
+      const session = await sessionInfo;
+      const clientId = session.idToken.payload.sub;
+
+      fetch(rootApi+"?roomID="+props.roomID+"&uid="+clientId+"&action=leave", {
+        method: 'PATCH', // or 'PUT'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data === "Update!"){
+                console.log("succeed!");
+                // props.p.history.push(`/room/${id}`);
+            }
+            
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
     async function leaveCall() {
         // 销毁本地音视频轨道。
+        
         localAudioTrack.close();
         localVideoTrack.close();
       
@@ -164,6 +225,8 @@ export const RoomController = (props)=>{
           // playerContainer && playerContainer.remove();
           props.userLeave(user.uid.toString());
         });
+
+        
       
         // 离开频道。
         await client.current.leave();
@@ -179,10 +242,17 @@ export const RoomController = (props)=>{
 
 export const Room =(props)=>{
     const[micOn,setMicOn]=useState(false);
-    const[camOn,setCamOn]=useState(false);
+    const[camOn,setCamOn]=useState(true);
     const[users,setUsers]=useState([]);
-    const roomID = props.match.params.roomID;
-    console.log(roomID);
+    const[cid,setCid] = useState(""); 
+    const roomID = props.match.params.roomid;
+    useEffect(async()=>{
+      const sessionInfo = Auth.currentSession();
+      const session = await sessionInfo;
+      const clientId = session.idToken.payload.sub;
+      setCid(clientId);
+    },[])
+    
     const onMicClick = ()=>{
       setMicOn(!micOn)
     }
@@ -207,10 +277,7 @@ export const Room =(props)=>{
       setUsers(users=>[...users].filter(item=>item!==uid));
       // setUsers(temp.filter(item => item !== uid));
     }
-    useEffect(()=>{
-      console.log("user change");
-      console.log(users);
-    },[users])
+
 
     return(
         <div>
@@ -226,7 +293,7 @@ export const Room =(props)=>{
             <div className="btnSignOut">
                 <SignOut />  
             </div>
-            <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn}/>
+            <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn} roomID={roomID} cid={cid} />
         </div>)
 }
 

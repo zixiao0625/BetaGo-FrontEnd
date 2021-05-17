@@ -1,23 +1,43 @@
-#VideoGalley{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
+.roomCard{
+    width: 311px;
+    height: auto;
+    padding: 10px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 5px 5px 5px 5px;
+
+    stroke-width: 10px;
 }
 
-.Video{
-    flex-basis:45vh;
-    flex-grow: 1;
-
+.avatar{
+    width:40px;
+    height:40px;
+    margin: 10px;
 }
-#VideoGalley{
-    position: absolute; 
-    bottom: 0px;
-    top: 0px; 
-    width: 100%;
+.icon1{
+    float: left;
 }
 
-.tooltip {
+.icon2{
+    float: right;
+}
+
+.text{
+    display: inline;
+}
+
+.container {
+    display: flex; 
+    flex-direction: row;
+    justify-content:flex-start;
+  }
+  .bot {
+      margin-top: 20px;
+  }
+  .middle {
+      margin-top:5px;
+  }
+  .tooltip {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black; /* If you want dots under the hoverable text */

@@ -5,8 +5,8 @@ const SignOut = (props) =>{
     async function handleClick() {
         let ws = props.websocket
         props.session.then(response => {
-            console.log(response.accessToken.payload.client_id)
-            ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.accessToken.payload.client_id}))
+            console.log(response.idToken.payload.sub)
+            ws.send(JSON.stringify({"action": "updateStatus", "clientId": response.idToken.payload.sub}))
         })
         Auth.signOut()
         window.location = "/room/"
