@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { listenerCount } from "superagent";
 import HomePage from '../HomePage/HomePage.js'
 import Button from '@material-ui/core/Button';
+import { CardColumns } from "react-bootstrap";
 require('bootstrap')
 
 
@@ -324,8 +325,9 @@ const RoomListPage = () => {
                 return <RoomCardPage roomid={rid} key={rid}/>
               })
             : <div style={{ textAlign: 'center' }}>
-                <div style={{ height: "200px" }}></div>
-                <span style={{ fontWeight: '600', fontSize: '60px', marginTop: '45%' }}>There is no room yet.</span>
+                {/* <div style={{ height: "200px" }}></div> */}
+                <img alt='no_room' src={empty} style={{ width: 'calc(45%)' }}/>
+                <div style={{ fontWeight: '600', fontSize: '60px' }}>There is no room yet. </div>
                 <div style={{ fontWeight: '400', fontSize: '30px' }}>Create a room to get things going.</div>
               </div>
           }
