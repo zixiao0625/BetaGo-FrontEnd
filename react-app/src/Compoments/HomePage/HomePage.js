@@ -60,12 +60,13 @@ const HomePage = (props)=>{
             <div className="device_access">
                 <DeviceSetUp/>
             </div>
-            <div className="btnSignOut">
+            
+            {/* <div className="btnSignOut">
                 <SignOut 
                     websocket = {ws}
                     session = {sessionInfo}
                 />
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -71,7 +71,7 @@ const ToolBar = (props)=>{
         <div className="camera" onClick = {clickCamIcon}>
             <img src={camIcon} alt="camera icon"/>
         </div>
-        <div className="music" onClick = {clickMusicIcon}>
+        {/* <div className="music" onClick = {clickMusicIcon}>
             {showMusic? <img src={music} alt="music icon"/>: null}
         </div> 
         <div className="box" onClick = {clickBoxIcon}>
@@ -85,7 +85,7 @@ const ToolBar = (props)=>{
         </div>
         <div className="right" onClick = {clickRightIcon}>
             {showRight? <img src={right} alt="right arrow icon"/>: null}
-        </div>
+        </div> */}
     </div>
     );
 }

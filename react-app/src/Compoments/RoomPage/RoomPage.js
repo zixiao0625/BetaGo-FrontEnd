@@ -281,18 +281,20 @@ export const Room =(props)=>{
 
     return(
         <div>
-            <div id="VideoGalley" width="100%" height="80%" >
+            
+            <div>
+              <div className="top"><span className="top-title">Mingle.</span></div>
+              <div id="VideoGalley" width="100%" height="100%" >
               <div id="self" className="Video"></div>
               {users.map(user=>{
                 return <UserCard key={user} uid={user}/>
               })}
             </div>
-            <div>
               <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick}/>
             </div>
-            <div className="btnSignOut">
+            {/* <div className="btnSignOut">
                 <SignOut />  
-            </div>
+            </div> */}
             <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn} roomID={roomID} cid={cid} />
         </div>)
 }
