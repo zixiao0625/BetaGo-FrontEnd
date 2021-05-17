@@ -3,6 +3,10 @@
     justify-content: center;
     flex-wrap: wrap;
     flex-direction: column;
+    position: absolute; 
+    bottom: 8vh;
+    top: 8vh; 
+    width: 100%;
 }
 
 .Video{
@@ -10,6 +14,7 @@
     flex-grow: 1;
 
 }
+
 #VideoGalley{
     position: absolute; 
     bottom: 0px;
