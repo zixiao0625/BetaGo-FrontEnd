@@ -11,6 +11,7 @@ import demoPic from '../../Icons/avatar.jpg'
 import RoomCardPage from "./RoomCard";
 import plusButton from "../../Icons/plus.svg";
 import logo from "../../Icons/toplogo.svg";
+import empty from "../../Icons/empty.svg";
 import { useHistory } from "react-router-dom";
 import { listenerCount } from "superagent";
 require('bootstrap')
@@ -270,21 +271,25 @@ const RoomListPage = () => {
       <div className="middlePage">
 
 
-          
-
-            
-
-
         <div className="RoomList" style={{marginLeft: '10%'}}>
         <div className="col1">Rooms</div>
+
+          
+          <div className="empty-parent">
+            <div className="empty-child"><img src={empty} style={{width: '300px'}}></img></div>
+            <div className="empty-child"><span className="empty-title">No rooms, yet.</span></div>
+            <div className="empty-child"><span>There is no room you can join, yet! Start a room and invite your friends to join!</span></div>
+          </div>
+
+
           {rooms.map((rid)=>{
             return <RoomCardPage roomid={rid} key={rid}/>
           })}
-          
           <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
         </div>
+        <div class="headerdivider"></div>
         <div className="ContactList" style={{marginRight: '3%'}}>
-          <div className="col1">Meet</div>
+          <div className="col1">People</div>
           <Contacts/>
         </div>
       </div>
