@@ -12,6 +12,8 @@ import RoomCardPage from "./RoomCard";
 import plusButton from "../../Icons/plus.svg";
 import { useHistory } from "react-router-dom";
 import { listenerCount } from "superagent";
+import HomePage from '../HomePage/HomePage.js'
+import Button from '@material-ui/core/Button';
 require('bootstrap')
 
 
@@ -24,11 +26,13 @@ const RoomListPage = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElEdit, setAnchorElEdit] = useState(null)
+  const [anchorElRoom, setAnchorElRoom] = useState(null)
   const [friendList,setFriendList] = useState([]);
   const [rooms,setRooms] = useState([]);
   const open = Boolean(anchorEl)
   const openNav = Boolean(anchorElNav)
   const openEdit = Boolean(anchorElEdit)
+  const openRoom = Boolean(anchorElRoom)
   const id = open ? 'simple-popover' : undefined;
   const history = useHistory();
   const handleClick = (event) => {
@@ -56,11 +60,23 @@ const RoomListPage = () => {
   }
 
   const handleInvitation = () => {
-    let path = `/invitation"`;
-    history.push(path);
+    // let path = '/#/invitation'
+    // history.push(path);
+    // push method is a bit tricky here, window makes things work
+    const origin = window.location.origin
+    window.location.replace(origin + '/#/invitation')
   }
-  const handleCreateRoom = () => {
-    history.push('/room');
+  const handleCreateRoom = (event) => {
+    // history.push('/room');
+    setAnchorElRoom(event.currentTarget)
+  }
+  const handleCloseRoom = () => {
+    // history.push('/room');
+    setAnchorElRoom(null)
+  }
+  const handleRefresh = () => {
+    window.location.reload() 
+    return false
   }
   // get current user Info
   const getInfo = async() => {
@@ -105,6 +121,7 @@ const RoomListPage = () => {
   // websocket connection
   let ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const initWebsocket = () => {
       ws.addEventListener("open", () => {
         sessionInfo.then(response => {
@@ -117,20 +134,32 @@ const RoomListPage = () => {
           // console.log('connected')
       }
 
-      ws.onclose = () => {
-          // console.log('disconnected')
-          window.alert("Your session is time out!");
-      }
+      // ws.onclose = () => {
+      //     // console.log('disconnected')
+      //     window.alert("Your session is time out!");
+      // }
   }
 
   useEffect(() => {
     // update user online
     initWebsocket()
-  }, [])
+  }, [initWebsocket])
 
   useEffect(() => {
     getInfo()
   },[])
+
+  useEffect(() => {
+    localStorage.setItem('avatar', avatar);
+  }, [avatar])
+
+  useEffect(() => {
+    localStorage.setItem('userName', userName);
+  }, [userName])
+
+  useEffect(() => {
+    localStorage.setItem('userBio', userBio);
+  }, [userBio])
 
   useEffect(async()=>{
     if(friendList.length>=0){
@@ -248,6 +277,7 @@ const RoomListPage = () => {
           style={{height: 'auto'}}
         />
       </Popover>
+
       {/* Edit User Info */}
       <Popover
           id='simple-popover'
@@ -266,19 +296,48 @@ const RoomListPage = () => {
         >
           <UploadCard setAvatar={setAvatar} setUserName={setUserName} setUserBio={setUserBio} />
         </Popover>
+
+        {/* pop up window for join room */}
+        <Popover
+          id='simple-popover'
+          open={openRoom}
+          anchorReference={"none"}
+          onClose={handleCloseRoom}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          style={{display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center', width: '70%vw'}}
+        > 
+          <div style={{ width: '600px', height: '800px'}}>
+            <HomePage />
+          </div>
+        </Popover>
       <div className="middlePage">
-        <div className="RoomList" style={{marginLeft: '10%'}}>
-          {rooms.map((rid)=>{
-            return <RoomCardPage roomid={rid} key={rid}/>
-          })}
-          
+        <div className="RoomList" style={{marginLeft: '5%', width: 'calc(70%)'}}>
+          { rooms.length !== 0 
+            ? rooms.map((rid)=>{
+                return <RoomCardPage roomid={rid} key={rid}/>
+              })
+            : <div style={{ textAlign: 'center' }}>
+                <div style={{ height: "200px" }}></div>
+                <span style={{ fontWeight: '600', fontSize: '60px', marginTop: '45%' }}>There is no room yet.</span>
+                <div style={{ fontWeight: '400', fontSize: '30px' }}>Create a room to get things going.</div>
+              </div>
+          }
           <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
         </div>
         <div className="ContactList">
           <Contacts/>
+          <div style={{ marginTop: '10px' }}>
+            <Button variant="outlined" color="primary" onClick={handleRefresh}>
+              Refresh
+            </Button>
+        </div>
         </div>
       </div>
-      
     </div>
   )
 }

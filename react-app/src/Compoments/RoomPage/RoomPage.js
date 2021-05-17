@@ -6,6 +6,13 @@ import VideoGalley from "./VideoGalley.js";
 import ToolBar from "./ToolBar.js"
 import "./RoomPage.css";
 import { Auth } from 'aws-amplify'
+import { Box } from "@material-ui/core"
+import { Popover } from '@material-ui/core'
+import demoPic from '../../Icons/avatar.jpg'
+import "./style.css";
+import "./bootstrap.min.css"
+require('bootstrap')
+
 const appId= "a3624becc6624c74959bd7f7975e89ed";
 const rootApi = "https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/room";
 
@@ -245,7 +252,20 @@ export const Room =(props)=>{
     const[camOn,setCamOn]=useState(true);
     const[users,setUsers]=useState([]);
     const[cid,setCid] = useState(""); 
+    const [userName, setUserName] = useState(localStorage.getItem('userName'))
+    const [userBio, setUserBio] = useState(localStorage.getItem('userBio'))
+    const [avatar, setAvatar] = useState(localStorage.getItem('avatar'))
+    const [anchorEl, setAnchorEl] = useState(null)
+    const [anchorElEdit, setAnchorElEdit] = useState(null)
+    const [anchorElNav, setAnchorElNav] = useState(null)
+    const openEdit = Boolean(anchorElEdit)
+    const openNav = Boolean(anchorElNav)
     const roomID = props.match.params.roomid;
+    // websocket connection
+    const ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
+    // Get Amplify ID
+    const sessionInfo = Auth.currentSession();
+
     useEffect(async()=>{
       const sessionInfo = Auth.currentSession();
       const session = await sessionInfo;
@@ -278,22 +298,118 @@ export const Room =(props)=>{
       // setUsers(temp.filter(item => item !== uid));
     }
 
+    const handleCloseNav = () => {
+      setAnchorElNav(null)
+    }
+
+    const handleClickI = (event) => {
+      console.log('111', event)
+      setAnchorElNav(event.currentTarget);
+    }
+
+    const handleInvitation = () => {
+      const origin = window.location.origin
+      window.location.replace(origin + '/#/invitation')
+    }
+
+    const showProfile = (event) => {
+      setAnchorEl(event.currentTarget);
+    }
+  
+    const showEdit = (event) => {
+      setAnchorElEdit(event.currentTarget)
+    }
+
+    const signOut = () => {
+      // Get Amplify ID
+      const sessionInfo = Auth.currentSession()
+  
+      // websocket connection; Sign Out
+      const ws = new WebSocket('wss://9iqx51uhcj.execute-api.us-east-1.amazonaws.com/dev')
+      sessionInfo.then(response => {
+          ws.send(JSON.stringify({"action": "updateStatus", "cliendId": response.idToken.payload.sub}))
+      })
+      Auth.signOut()
+      window.location = "/"
+    }
+
 
     return(
         <div>
-            <div id="VideoGalley" width="100%" height="80%" >
-              <div id="self" className="Video"></div>
-              {users.map(user=>{
-                return <UserCard key={user} uid={user}/>
-              })}
+          <header className="p-3 mb-3 border-bottom">
+            <div className="container" style={{ zIndex: '11' }}>
+              {/* <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> */}
+                <Box display='flex' flexDirection='row' justifyContent='space-between' style={{ width: '100%'}} >
+                <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                  <svg className="bi me-2" width={40} height={32}><use xlinkHref="#bootstrap" /></svg>
+                </a>
+                <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                  {/* 留个位置room: 可以把roomname抓下来 */}
+                  <li><a href="#" className="nav-link px-2 link-secondary">Room:</a></li>
+                </ul>     
+                <div className="dropdown text-end" style={{ marginTop: '7px' }}>
+                  {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <a 
+                    // href="" 
+                    // className="d-block link-dark text-decoration-none dropdown-toggle" 
+                    // id="dropdownUser1" 
+                    // data-bs-toggle="dropdown" 
+                    // aria-expanded="true"
+                    // onClick={handleClickI}
+                  >
+                    {avatar === ''
+                      ? <img src={demoPic} alt="mdo" width={32} height={32} className="rounded-circle" />
+                      : <img src={avatar} alt="mdo" width={32} height={32} className="rounded-circle" /> }
+                  </a>
+                  <Popover
+                    id='simple-popover'
+                    open={openNav}
+                    anchorEl={anchorElNav}
+                    onClose={handleCloseNav}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                    style={{height: '400px', width: '100%' }}
+                  > 
+                    <div>
+                      <ul style={{ width: '200px' }}>
+                        <li><a className="dropdown-item" href="#">Notification</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={handleInvitation}>Invitations</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={showProfile}>Profile</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={showEdit}>Edit Info</a></li>
+                        <li><hr className="dropdown-divider" /></li>
+                        <li><a className="dropdown-item" href="#" onClick={signOut}>Sign out</a></li>
+                      </ul>
+                    </div>
+                  </Popover>
+                </div>
+                </Box>
+              {/* </div> */}
             </div>
-            <div>
-              <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick}/>
-            </div>
-            <div className="btnSignOut">
-                <SignOut />  
-            </div>
-            <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn} roomID={roomID} cid={cid} />
+          </header>
+          <div>
+          <div id="VideoGalley" width="100%" height="80%" >
+            <div id="self" className="Video"></div>
+            {users.map(user=>{
+              return <UserCard key={user} uid={user}/>
+            })}
+          </div>
+          <div>
+            <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick}/>
+          </div>
+          <div className="btnSignOut">
+              <SignOut 
+                websocket = {ws}
+                session = {sessionInfo}
+              />  
+          </div>
+          <RoomController userJoin={userJoin} userLeave={userLeave} micOn={micOn} camOn={camOn} roomID={roomID} cid={cid} />
+          </div>
         </div>)
 }
 

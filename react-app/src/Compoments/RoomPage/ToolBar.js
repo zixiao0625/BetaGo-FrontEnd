@@ -9,7 +9,8 @@ import chat from '../../Icons/chat.svg'
 import box from '../../Icons/box.svg'
 import left from '../../Icons/left.svg'
 import right from '../../Icons/right.svg'
-
+import Button from '@material-ui/core/Button'
+import { useHistory } from "react-router-dom"
 
 const ToolBar = (props)=>{
     // const [camOn,setCamOn] = useState(true);
@@ -21,6 +22,7 @@ const ToolBar = (props)=>{
     const [showRight,setRightIcon] = useState(false);
     const camOn = props.camOn;
     const micOn = props.micOn;
+    const history = useHistory();
     
     const clickMicIcon = () => {
         props.onMicClick();
@@ -61,10 +63,14 @@ const ToolBar = (props)=>{
         setRightIcon(false);
     }
 
+    const handleBack = () => {
+        history.push('/')
+    }
+
     let camIcon = camOn? camIconOn:camIconOff;
     let micIcon = micOn? micIconOn:micIconMute;
     return (
-    <div className="toolbar">
+    <div className="toolbar" style={{ backgroundColor: '#eaedf2' }}>
         <div className="microphone" onClick = {clickMicIcon}>
             <img src={micIcon} alt="microphone icon"/>
         </div> 
@@ -85,6 +91,11 @@ const ToolBar = (props)=>{
         </div>
         <div className="right" onClick = {clickRightIcon}>
             {showRight? <img src={right} alt="right arrow icon"/>: null}
+        </div>
+        <div style={{ marginLeft: 'calc(85%)' }}>
+            <Button variant="outlined" color="primary" onClick={handleBack}>
+                Back to Landing page
+            </Button>
         </div>
     </div>
     );

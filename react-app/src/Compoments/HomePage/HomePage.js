@@ -36,9 +36,9 @@ const HomePage = (props)=>{
         }
     }
 
-    useEffect(() => {
-        initWebsocket();
-    });
+    // useEffect(() => {
+    //     initWebsocket();
+    // });
 
     window.addEventListener('beforeunload', function (e) {
         e.preventDefault();
