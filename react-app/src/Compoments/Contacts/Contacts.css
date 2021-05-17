@@ -5,7 +5,7 @@
 .contacts {
   letter-spacing: 0px;
   min-height: 28px;
-  width: 201px;
+  width: 250px;
   display:inline;
 }
 
@@ -20,12 +20,10 @@
   margin-top: 4px;
   width: 30px;
 }
-.picture {
-  height: 50px;
-  width: 50px;
-  padding: 5px;
-  display:inline-block;
+.profilePic{
+  border-radius: 5px;
 }
+
 
 .person_list {
   height: 40px;
@@ -33,21 +31,24 @@
 }
 
 .button {
-  background-color: #4CAF50;
+  background-color: #D1EABD;
   border: none;
-  color: white;
-  padding: 3px 5px;
+  color: #54B944;
+  padding: 3px 7px;
   text-align: center;
   text-decoration: none;
-  display: inline;
-  font-size: 10px;
+  font-weight: bold;
+  font-size: 12px;
   margin: 5px 5px;
   cursor: pointer;
   border-radius: 4px;
   position: absolute;
-  right: 5px;
+  right: 7px;
 }
-
+li:hover{
+  cursor: pointer;
+  
+}
 .pingfangtc-medium-black-20px {
   color: black;
   font-family: "PingFang TC-Medium", Helvetica, Arial, serif;
@@ -58,12 +59,12 @@
 
 .boxContainer {
   position: relative;
-  right: 50%;
-  height: 500px;
-  width: 220px;
-
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  border-radius: 25px;
+  /*right: 50%;*/
+  height: 600px;
+  width: 280px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+  border-radius: 16px;
   padding: 10px;
   overflow: auto;
 }
@@ -72,16 +73,66 @@
   border:1px solid black;
 } */
 
-.each-person {
+.people{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.people li {
+  padding-right: 3px;
+  padding-bottom: 5px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.join-span {
+  white-space: normal;
+  text-align: center;
+    cursor: pointer;
+}
+
+span .button {
+  vertical-align: middle;
+}
+.w3-bar {
   letter-spacing: 0px;
   font-family: "PingFang TC-Medium", Helvetica;
   font-style: normal;
   font-size:10px;
   font-weight: 500;
-  display: inline-block;
-  width: 200px;
+  width: 100px;
   margin: 3px;
+  width: 100%;
+  overflow: hidden;
 }
+
+.w3-bar .w3-bar-item {
+  padding: 1px 5px;
+  float: left;
+  width: auto;
+  border: none;
+  display: block;
+  outline: 0;
+}
+.list-item{
+  display: block;
+}
+.username {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.status{
+  color: #7C7C7C;
+  font-size:  12px;
+}
+
+.w3-circle {
+  border-radius: 15%;
+  vertical-align: middle;
+}
+
 
 .person-name {
   font-size: 15px;

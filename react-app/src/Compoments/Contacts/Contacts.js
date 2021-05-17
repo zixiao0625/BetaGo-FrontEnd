@@ -81,14 +81,12 @@ class Contacts extends React.Component {
     return friendId.length === 0 
             ?
               <div className="boxContainer">
-                <div className="contacts pingfangtc-medium-black-20px">Meet
-                </div>
+                
               </div>
               
             : (
               <div className="boxContainer">
-                <div className="contacts pingfangtc-medium-black-20px">Meet
-                </div>
+                
                 <Box borderRadius={16}>
                 {
                   this.state.friendId.map((friend_Id) => {
