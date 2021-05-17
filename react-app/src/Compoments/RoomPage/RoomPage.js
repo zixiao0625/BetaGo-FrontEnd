@@ -42,8 +42,7 @@ export const RoomController = (props)=>{
           client.current.on("user-left",onUserLeft);
           client.current.on("user-published",onUserPublish);
           client.current.on("user-unpublished",onUnpublish);
-          console.log("AAAAAAAAAAAAAAAAA");
-          console.log(props.cid);
+
           
           // const localContainer = document.createElement("div");
           // localContainer.id = "self";
@@ -272,7 +271,11 @@ export const Room =(props)=>{
       const clientId = session.idToken.payload.sub;
       setCid(clientId);
     },[])
-    
+
+    const leaveUp = ()=>{
+      navigator.sendBeacon(rootApi+ "/action"+"?roomID="+roomID+"&uid="+cid+"&action=leave");
+    }
+
     const onMicClick = ()=>{
       setMicOn(!micOn)
     }
@@ -345,7 +348,7 @@ export const Room =(props)=>{
                 </a>
                 <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                   {/* 留个位置room: 可以把roomname抓下来 */}
-                  <li><a href="#" className="nav-link px-2 link-secondary">Room:</a></li>
+                  <li><a className="nav-link px-2 link-secondary">Room:</a></li>
                 </ul>     
                 <div className="dropdown text-end" style={{ marginTop: '7px' }}>
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -400,7 +403,7 @@ export const Room =(props)=>{
             })}
           </div>
           <div>
-            <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick}/>
+            <ToolBar micOn={micOn} camOn={camOn} onMicClick={onMicClick} onCamClick={onCamClick} onLeave={leaveUp}/>
           </div>
           <div className="btnSignOut">
               <SignOut 

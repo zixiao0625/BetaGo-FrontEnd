@@ -23,19 +23,20 @@ require('bootstrap')
 
 //You need this npm package to do createReactClass
 const RoomListPage = () => {
-  const [userName, setUserName] = useState('')
-  const [userBio, setUserBio] = useState('')
-  const [avatar, setAvatar] = useState('')
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [anchorElNav, setAnchorElNav] = useState(null)
-  const [anchorElEdit, setAnchorElEdit] = useState(null)
-  const [anchorElRoom, setAnchorElRoom] = useState(null)
+  const [cid,setCid] = useState("");
+  const [userName, setUserName] = useState('');
+  const [userBio, setUserBio] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElEdit, setAnchorElEdit] = useState(null);
+  const [anchorElRoom, setAnchorElRoom] = useState(null);
   const [friendList,setFriendList] = useState([]);
   const [rooms,setRooms] = useState([]);
-  const open = Boolean(anchorEl)
-  const openNav = Boolean(anchorElNav)
-  const openEdit = Boolean(anchorElEdit)
-  const openRoom = Boolean(anchorElRoom)
+  const open = Boolean(anchorEl);
+  const openNav = Boolean(anchorElNav);
+  const openEdit = Boolean(anchorElEdit);
+  const openRoom = Boolean(anchorElRoom);
   const id = open ? 'simple-popover' : undefined;
   const history = useHistory();
   const handleClick = (event) => {
@@ -47,11 +48,11 @@ const RoomListPage = () => {
   }
 
   const handleCloseNav = () => {
-    setAnchorElNav(null)
+    setAnchorElNav(null);
   }
 
   const handleCloseEdit = () => {
-    setAnchorElEdit(null)
+    setAnchorElEdit(null);
   }
 
   const showProfile = (event) => {
@@ -59,33 +60,34 @@ const RoomListPage = () => {
   }
 
   const showEdit = (event) => {
-    setAnchorElEdit(event.currentTarget)
+    setAnchorElEdit(event.currentTarget);
   }
 
   const handleInvitation = () => {
     // let path = '/#/invitation'
     // history.push(path);
     // push method is a bit tricky here, window makes things work
-    const origin = window.location.origin
-    window.location.replace(origin + '/#/invitation')
+    const origin = window.location.origin;
+    window.location.replace(origin + '/#/invitation');
   }
   const handleCreateRoom = (event) => {
     // history.push('/room');
-    setAnchorElRoom(event.currentTarget)
+    setAnchorElRoom(event.currentTarget);
   }
   const handleCloseRoom = () => {
     // history.push('/room');
-    setAnchorElRoom(null)
+    setAnchorElRoom(null);
   }
   const handleRefresh = () => {
-    window.location.reload() 
-    return false
+    window.location.reload() ;
+    return false;
   }
   // get current user Info
   const getInfo = async() => {
     const sessionInfo = Auth.currentSession();
     const session = await sessionInfo;
     const clientId = session.idToken.payload.sub;
+    setCid(clientId);
     // get user name
     const api = 'https://cul7qg4ehc.execute-api.us-east-1.amazonaws.com/dev/user?clientId=' + clientId;
     const response = await fetch(api, {
@@ -315,7 +317,7 @@ const RoomListPage = () => {
           alignItems: 'center', width: '70%vw'}}
         > 
           <div style={{ width: '600px', height: '800px'}}>
-            <HomePage />
+            <HomePage cid={cid}/>
           </div>
         </Popover>
       <div className="middlePage">
@@ -333,7 +335,7 @@ const RoomListPage = () => {
           }
           <img className="plusButton" src={plusButton} alt="plus" onClick={handleCreateRoom} />
         </div>
-        <div class="headerdivider"></div>
+        <div className="headerdivider"></div>
         <div className="ContactList" style={{marginRight: '3%'}}>
           <div className="col1">People</div>
           <Contacts/>

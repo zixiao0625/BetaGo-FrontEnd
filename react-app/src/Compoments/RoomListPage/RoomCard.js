@@ -54,7 +54,7 @@ const RoomCard = (props)=>{
   
   return (
       <div className="roomCard" style={{cursor: "pointer"}} onClick={handleRoom}>
-        <div className="top">
+        <div className="cardTop">
             <h5 className="RoomTitle">{roomName}</h5>
             <p className="RoomInfo">{roomInfo}</p>
         </div>
